@@ -7,6 +7,11 @@ Whats is it?
 Quite simply, this is a Google Chrome extension that allows Videotron.com customers
 to monitor their monthly bandwidth quota.
 
+*Important note* 
+This extension is a fork of the original Videotron Internet Usage Monitor extension (https://github.com/gboudreau/videotron_monitor_chrome).
+
+The original one is no longer maintained. This fork will be the official repository for the extension.
+
 Features
 --------
 
@@ -38,3 +43,7 @@ Install the extension from the [Google Chrome WebStore](https://chrome.google.co
 Then go in the options (right-click the taskbar button and choose Options), enter your Videotron User Key.
 
 Don't know your Videotron User Key? You can find it in your Videotron Customer Center, in the [User Key] (https://www.videotron.com/client/user-management/secur/InitProfile.do?dispatch=initProfile&tab=token&lang=en&caller=videotron-chrome.pommepause.com) tab of the Your Profile page.
+
+Changelog
+---------
+(2013-01-03) - v2.0 - Produced a fix to the response serialisation message. 
