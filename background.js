@@ -135,9 +135,9 @@ function loadUsage2(e, request) {
 	}
 	
 	response = new Object();
-	response.periodStartDate = new Date(apiResponse.periodStartDate);
-	response.periodEndDate = new Date(apiResponse.periodEndDate);
-	response.usageTimestamp = new Date(apiResponse.internetAccounts[0].usageTimestamp);
+	response.periodStartDate = apiResponse.periodStartDate;
+	response.periodEndDate = apiResponse.periodEndDate;
+	response.usageTimestamp = apiResponse.internetAccounts[0].usageTimestamp;
 	
 	response.maxCombinedBytes = apiResponse.internetAccounts[0].maxCombinedBytes;
 	response.uploadedBytes = apiResponse.internetAccounts[0].uploadedBytes;
