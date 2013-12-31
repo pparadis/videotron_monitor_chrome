@@ -24,11 +24,11 @@ var last_notification;
 
 $(document).ready(function() {
     reloadPrefs();
-	loadUsage();
+    loadUsage();
 });
 
 function reloadPrefs() {
-	userkey = localStorage["userkey"];
+    userkey = localStorage["userkey"];
 }
 
 var minute = 60*1000;
@@ -36,64 +36,64 @@ var hour = 60*minute;
 var day = 24*hour;
 
 function loadUsage() {
-	var n = new Date();
-	var now = n.getTime();
-	
-	if (!userkey || userkey.length == 0) {
-		var notification = webkitNotifications.createNotification(
+    var n = new Date();
+    var now = n.getTime();
+    
+    if (!userkey || userkey.length == 0) {
+        var notification = webkitNotifications.createNotification(
             'Images/icon-64.png',
             tt('needs_config_notif_title'),
             tt('needs_config_notif_text')
-		);
-		notification.show();
-	    return;
-	}
-
-	// only refresh if it's been more than 6h since the last update, or if the data for the day before yesterday hasn't been downloaded yet.
-	var lu = new Date(); lu.setTime(last_updated);
-	if (last_updated == 0) {
-    	console.log("Chrome restarted, or new install. Updating data...");
-	} else {
-    	console.log("Now: " + now);
-    	console.log("Last Updated: " + last_updated);
-    	if ((now - last_updated) <= 6*hour) {
-        	console.log("Won't update: data is only refreshed every 6 hours.");
-    	}
-    	if ((((now - date_last_updated_data.getTime()) > 2*day) && (now - last_updated) > 15*minute)) {
-    	    console.log("Oh, oh! Wait... The latest data is more than 2 days old... Let's retry every 15 minutes until it works then.");
-    	}
-	}
-	if ((now - last_updated) > 6*hour || (((now - date_last_updated_data.getTime()) > 2*day) && (now - last_updated) > 15*minute)) {
-		if (xml_request != null) {
-			xml_request.abort();
-			xml_request = null;
-		}
-		if (pastAPIRequests.length >= 19) {
-		    var firstReqDate = pastAPIRequests.shift();
-    	    var elapsedTime = new Date().getTime() - firstReqDate.getTime();
-    	    console.log(pastAPIRequests.length + " API requests were made in the last " + (elapsedTime/60) + " minutes. Maximum is 20 / 15 minutes.");
-		    if (elapsedTime < 15*minute) {
-    		    console.log("Won't send this request, to prevent getting blocked by Videotron.");
-		        load_usage_error = t('throttled');
-		        if (loadUsageTimer) {
-		            clearTimeout(loadUsageTimer);
-		        }
-            	loadUsageTimer = setTimeout(loadUsage, 5*minute);
-            	return;
-		    } else {
-		        console.log("It's OK to send another request; let's go!");
-		    }
-		}
-		pastAPIRequests.push(new Date());
-		xml_request = new XMLHttpRequest();
-		xml_request.onload = function(e) { loadUsage2(e, xml_request); }
-		xml_request.open("GET", "https://www.videotron.com/api/1.0/internet/usage/wired/"+userkey+".json?lang="+lang+"&caller=videotron-chrome.pommepause.com");
-		xml_request.setRequestHeader("Cache-Control", "no-cache");
-		xml_request.send(null);
+        );
+        notification.show();
+        return;
     }
 
-	// Repeat every 20 minutes; will only refresh with the server every 6h anyway
-	loadUsageTimer = setTimeout(loadUsage, 20*minute);
+    // only refresh if it's been more than 6h since the last update, or if the data for the day before yesterday hasn't been downloaded yet.
+    var lu = new Date(); lu.setTime(last_updated);
+    if (last_updated == 0) {
+        console.log("Chrome restarted, or new install. Updating data...");
+    } else {
+        console.log("Now: " + now);
+        console.log("Last Updated: " + last_updated);
+        if ((now - last_updated) <= 6*hour) {
+            console.log("Won't update: data is only refreshed every 6 hours.");
+        }
+        if ((((now - date_last_updated_data.getTime()) > 2*day) && (now - last_updated) > 15*minute)) {
+            console.log("Oh, oh! Wait... The latest data is more than 2 days old... Let's retry every 15 minutes until it works then.");
+        }
+    }
+    if ((now - last_updated) > 6*hour || (((now - date_last_updated_data.getTime()) > 2*day) && (now - last_updated) > 15*minute)) {
+        if (xml_request != null) {
+            xml_request.abort();
+            xml_request = null;
+        }
+        if (pastAPIRequests.length >= 19) {
+            var firstReqDate = pastAPIRequests.shift();
+            var elapsedTime = new Date().getTime() - firstReqDate.getTime();
+            console.log(pastAPIRequests.length + " API requests were made in the last " + (elapsedTime/60) + " minutes. Maximum is 20 / 15 minutes.");
+            if (elapsedTime < 15*minute) {
+                console.log("Won't send this request, to prevent getting blocked by Videotron.");
+                load_usage_error = t('throttled');
+                if (loadUsageTimer) {
+                    clearTimeout(loadUsageTimer);
+                }
+                loadUsageTimer = setTimeout(loadUsage, 5*minute);
+                return;
+            } else {
+                console.log("It's OK to send another request; let's go!");
+            }
+        }
+        pastAPIRequests.push(new Date());
+        xml_request = new XMLHttpRequest();
+        xml_request.onload = function(e) { loadUsage2(e, xml_request); }
+        xml_request.open("GET", "https://www.videotron.com/api/1.0/internet/usage/wired/"+userkey+".json?lang="+lang+"&caller=videotron-chrome.pommepause.com");
+        xml_request.setRequestHeader("Cache-Control", "no-cache");
+        xml_request.send(null);
+    }
+
+    // Repeat every 20 minutes; will only refresh with the server every 6h anyway
+    loadUsageTimer = setTimeout(loadUsage, 20*minute);
 }
 
 function loadUsage2(e, request) {
@@ -102,202 +102,202 @@ function loadUsage2(e, request) {
         return;
     }
     
-	if (request.response) {
-		var resp = request.response;
-	} else {
-		var resp = request.responseText;
-	}
-//	eval('apiResponse = (' + resp + ');');
+    if (request.response) {
+        var resp = request.response;
+    } else {
+        var resp = request.responseText;
+    }
+//    eval('apiResponse = (' + resp + ');');
     apiResponse = JSON.parse(resp);
-	
-	for (var i=0; i<apiResponse.messages.length; i++) {
-	    if (apiResponse.messages[i].severity == 'error') {
-	        if (loadUsageTimer) {
-    	        clearTimeout(loadUsageTimer);
-	        }
-	        if (apiResponse.messages[i].code.indexOf('noUsage') != -1 || apiResponse.messages[i].code.indexOf('noProfile.') != -1) {
+    
+    for (var i=0; i<apiResponse.messages.length; i++) {
+        if (apiResponse.messages[i].severity == 'error') {
+            if (loadUsageTimer) {
+                clearTimeout(loadUsageTimer);
+            }
+            if (apiResponse.messages[i].code.indexOf('noUsage') != -1 || apiResponse.messages[i].code.indexOf('noProfile.') != -1) {
                 load_usage_error = tt('no_data', 2);
-            	loadUsageTimer = setTimeout(loadUsage, 2*minute);
-	        }
-	        else if (apiResponse.messages[i].code == 'blocked_ip') {
+                loadUsageTimer = setTimeout(loadUsage, 2*minute);
+            }
+            else if (apiResponse.messages[i].code == 'blocked_ip') {
                 load_usage_error = 'API error: ' + apiResponse.messages[i].text;
-            	loadUsageTimer = setTimeout(loadUsage, 24*hour+1*minute);
-	        }
-	        else if (apiResponse.messages[i].code == 'invalidToken' || apiResponse.messages[i].code == 'invalidTokenClass' || apiResponse.messages[i].code == 'noProfile') {
+                loadUsageTimer = setTimeout(loadUsage, 24*hour+1*minute);
+            }
+            else if (apiResponse.messages[i].code == 'invalidToken' || apiResponse.messages[i].code == 'invalidTokenClass' || apiResponse.messages[i].code == 'noProfile') {
                 load_usage_error = 'API error: ' + apiResponse.messages[i].text;
-	            // No auto-refresh
-	        } else {
+                // No auto-refresh
+            } else {
                 load_usage_error = 'API error: ' + apiResponse.messages[i].text;
-            	loadUsageTimer = setTimeout(loadUsage, 20*minute);
-	        }
+                loadUsageTimer = setTimeout(loadUsage, 20*minute);
+            }
             return;
-	    }
-	}
-	
-	response = new Object();
-	response.periodStartDate = apiResponse.periodStartDate;
-	response.periodEndDate = apiResponse.periodEndDate;
-	response.usageTimestamp = apiResponse.internetAccounts[0].usageTimestamp;
-	
-	response.maxCombinedBytes = apiResponse.internetAccounts[0].maxCombinedBytes;
-	response.uploadedBytes = apiResponse.internetAccounts[0].uploadedBytes;
-	response.downloadedBytes = apiResponse.internetAccounts[0].downloadedBytes;
-	
-	response.packageName = apiResponse.internetAccounts[0].packageName;
-	response.packageCode = apiResponse.internetAccounts[0].packageCode;
-	
-	// @TODO Waiting for the API to report those...
+        }
+    }
+    
+    response = new Object();
+    response.periodStartDate = apiResponse.periodStartDate;
+    response.periodEndDate = apiResponse.periodEndDate;
+    response.usageTimestamp = apiResponse.internetAccounts[0].usageTimestamp;
+    
+    response.maxCombinedBytes = apiResponse.internetAccounts[0].maxCombinedBytes;
+    response.uploadedBytes = apiResponse.internetAccounts[0].uploadedBytes;
+    response.downloadedBytes = apiResponse.internetAccounts[0].downloadedBytes;
+    
+    response.packageName = apiResponse.internetAccounts[0].packageName;
+    response.packageCode = apiResponse.internetAccounts[0].packageCode;
+    
+    // @TODO Waiting for the API to report those...
     surchargeLimit = 99999;
     surchargePerGb = 1.50;
-	if (response.packageCode) {
-    	if (response.packageCode == 500 || response.packageCode == 521 || response.packageCode == 518 || response.packageCode == 544 || response.packageCode == 1177 || response.packageCode == 1178) {
-    	    surchargeLimit = 50;
-    	    surchargePerGb = 4.50;
-    	}
-	} else {
-    	if (response.packageName == 'High-Speed Internet' || response.packageName == 'Basic Internet' || response.packageName == 'Internet haute vitesse' || response.packageName == 'Internet Intermédiaire') {
-    	    surchargeLimit = 50;
-    	    surchargePerGb = 4.50;
-    	}
-	}
-	response.surchargeLimit = surchargeLimit
-	response.surchargePerGb = surchargePerGb;
-	
-	date_last_updated_data = response.periodEndDate;
-	var this_month_start = response.periodStartDate;
-	var next_month_start = new Date(response.periodEndDate); next_month_start.setDate(next_month_start.getDate()+1);
-	var now = response.usageTimestamp;
+    if (response.packageCode) {
+        if (response.packageCode == 500 || response.packageCode == 521 || response.packageCode == 518 || response.packageCode == 544 || response.packageCode == 1177 || response.packageCode == 1178) {
+            surchargeLimit = 50;
+            surchargePerGb = 4.50;
+        }
+    } else {
+        if (response.packageName == 'High-Speed Internet' || response.packageName == 'Basic Internet' || response.packageName == 'Internet haute vitesse' || response.packageName == 'Internet Intermédiaire') {
+            surchargeLimit = 50;
+            surchargePerGb = 4.50;
+        }
+    }
+    response.surchargeLimit = surchargeLimit
+    response.surchargePerGb = surchargePerGb;
+    
+    date_last_updated_data = response.periodEndDate;
+    var this_month_start = response.periodStartDate;
+    var next_month_start = new Date(response.periodEndDate); next_month_start.setDate(next_month_start.getDate()+1);
+    var now = response.usageTimestamp;
 
-	down = numberFormatGB(response.downloadedBytes, 'B');
-	up = numberFormatGB(response.uploadedBytes, 'B');
-	limitTotal = parseInt(response.maxCombinedBytes/1024/1024/1024);
-	
-	// Now data
-	var nowPercentage = (now.getTime()-this_month_start.getTime())/(next_month_start.getTime()-this_month_start.getTime());
-	var nowBandwidth = parseFloat((nowPercentage*(limitTotal)-down-up).toFixed(2));
-	var n = (down+up) * 100.0 / limitTotal;
-	var limitPercentage = n.toFixed(0);
-	
-	console.log("Got new usage data from server...");
-	console.log(response);
-	
-	// 'Today is the $num_days day of your billing month.'
-	var num_days = Math.floor((now.getTime()-this_month_start.getTime())/(24*60*60*1000))+1;
-	num_days = parseInt(num_days.toFixed(0));
-	switch (num_days) {
-	    case 1: num_days = t('1st'); break;
-	    case 2: num_days = t('2nd'); break;
-	    case 3: num_days = t('3rd'); break;
-	    case 21: num_days = t('21st'); break;
-	    case 22: num_days = t('22nd'); break;
-	    case 23: num_days = t('23rd'); break;
-	    case 31: num_days = t('31st'); break;
-	    default: num_days = num_days + t('th');
-	}
-	var endOfMonthBandwidth = (down+up) / nowPercentage;
+    down = numberFormatGB(response.downloadedBytes, 'B');
+    up = numberFormatGB(response.uploadedBytes, 'B');
+    limitTotal = parseInt(response.maxCombinedBytes/1024/1024/1024);
+    
+    // Now data
+    var nowPercentage = (now.getTime()-this_month_start.getTime())/(next_month_start.getTime()-this_month_start.getTime());
+    var nowBandwidth = parseFloat((nowPercentage*(limitTotal)-down-up).toFixed(2));
+    var n = (down+up) * 100.0 / limitTotal;
+    var limitPercentage = n.toFixed(0);
+    
+    console.log("Got new usage data from server...");
+    console.log(response);
+    
+    // 'Today is the $num_days day of your billing month.'
+    var num_days = Math.floor((now.getTime()-this_month_start.getTime())/(24*60*60*1000))+1;
+    num_days = parseInt(num_days.toFixed(0));
+    switch (num_days) {
+        case 1: num_days = t('1st'); break;
+        case 2: num_days = t('2nd'); break;
+        case 3: num_days = t('3rd'); break;
+        case 21: num_days = t('21st'); break;
+        case 22: num_days = t('22nd'); break;
+        case 23: num_days = t('23rd'); break;
+        case 31: num_days = t('31st'); break;
+        default: num_days = num_days + t('th');
+    }
+    var endOfMonthBandwidth = (down+up) / nowPercentage;
 
-	if (limitPercentage > 100) {
-	    // 'Current extra charges: $overLimit'
-		var overLimit = ((down+up) - limitTotal) * surchargePerGb;
-		if (overLimit > surchargeLimit) {
-			overLimit = surchargeLimit;
-		}
+    if (limitPercentage > 100) {
+        // 'Current extra charges: $overLimit'
+        var overLimit = ((down+up) - limitTotal) * surchargePerGb;
+        if (overLimit > surchargeLimit) {
+            overLimit = surchargeLimit;
+        }
 
         // 'Extra charges with $maxTransferPackages of transfer packages (the maximum): $hypotetic_overLimit.'
-		var hypoteticOverLimit = ((down+up) - (limitTotal+maxTransferPackages)) * surchargePerGb;
-		if (hypoteticOverLimit > surchargeLimit) {
-			hypoteticOverLimit = surchargeLimit;
-		} else if (hypoteticOverLimit < 0) {
-		    // 'To get no extra charges, you'd need to buy another $extraPackages of extra transfer packages.'
-		    for (var i=0; i<transferPackages.length; i++) {
-		        if ((down+up) - (limitTotal+transferPackages[i]) < 0) {
-		            extraPackages = transferPackages[i];
-		            extraPackagesPrice = transferPackagesPrices[i];
-		            break;
-		        }
-		    }
-		}
+        var hypoteticOverLimit = ((down+up) - (limitTotal+maxTransferPackages)) * surchargePerGb;
+        if (hypoteticOverLimit > surchargeLimit) {
+            hypoteticOverLimit = surchargeLimit;
+        } else if (hypoteticOverLimit < 0) {
+            // 'To get no extra charges, you'd need to buy another $extraPackages of extra transfer packages.'
+            for (var i=0; i<transferPackages.length; i++) {
+                if ((down+up) - (limitTotal+transferPackages[i]) < 0) {
+                    extraPackages = transferPackages[i];
+                    extraPackagesPrice = transferPackagesPrices[i];
+                    break;
+                }
+            }
+        }
     }
     
     var badgeDetails = {text: ''};
     var badgeColorDetails = {color: [200, 100, 100, 255]}; // Dark red
     var titleDetails = {title: t('Videotron Internet Usage Monitor')};
     var current_notification;
-	if (down+up > limitTotal+maxTransferPackages) {
-	    // You're doomed!
-		var badgeDetails = {text: '!!'};
+    if (down+up > limitTotal+maxTransferPackages) {
+        // You're doomed!
+        var badgeDetails = {text: '!!'};
         var titleDetails = {title: t("over_limit_too_much_tooltip")};
 
         var text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0));
         current_notification = {title: t('over_limit_too_much_notif_title'), text: text};
-	} else if (down+up > limitTotal) {
-	    // All is not lost... Buy transfer packages!
-		var badgeDetails = {text: '!'};
+    } else if (down+up > limitTotal) {
+        // All is not lost... Buy transfer packages!
+        var badgeDetails = {text: '!'};
         var titleDetails = {title: t('over_limit_tooltip')};
 
         var text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), extraPackagesPrice.toFixed(2)]);
         current_notification = {title: t('over_limit_notif_title'), text: text};
-	} else if (nowBandwidth < 0 && num_days != '0th' && num_days != '0e') {
-	    // Not on a good path!
-		var badgeDetails = {text: '!'};
-		var badgeColorDetails = {color: [255, 204, 51, 255]}; // Yellow orangish
+    } else if (nowBandwidth < 0 && num_days != '0th' && num_days != '0e') {
+        // Not on a good path!
+        var badgeDetails = {text: '!'};
+        var badgeColorDetails = {color: [255, 204, 51, 255]}; // Yellow orangish
         var titleDetails = {title: t('expected_over_limit_tooltip')};
 
         var text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]);
         current_notification = {title: t('expected_over_limit_notif_title'), text: text};
-	} else {
-		var badgeDetails = {text: '+'};
-		var badgeColorDetails = {color: [0, 153, 0, 255]}; // Green
-	    var titleDetails = {title: t('all_is_well')};
-	}
-	
-	if (chrome.browserAction) {
-    	chrome.browserAction.setBadgeText(badgeDetails);
-    	chrome.browserAction.setBadgeBackgroundColor(badgeColorDetails);
-    	chrome.browserAction.setTitle(titleDetails);
-	}
-	
+    } else {
+        var badgeDetails = {text: '+'};
+        var badgeColorDetails = {color: [0, 153, 0, 255]}; // Green
+        var titleDetails = {title: t('all_is_well')};
+    }
+    
+    if (chrome.browserAction) {
+        chrome.browserAction.setBadgeText(badgeDetails);
+        chrome.browserAction.setBadgeBackgroundColor(badgeColorDetails);
+        chrome.browserAction.setTitle(titleDetails);
+    }
+    
     if (current_notification && (!last_notification || current_notification.title != last_notification.title)) {
-    	var show_notifications = localStorage["showNotifications"] == 'true' || typeof localStorage["showNotifications"] == 'undefined';
-    	if (show_notifications) {
-    		// Show notification
-    		var notification = webkitNotifications.createNotification(
+        var show_notifications = localStorage["showNotifications"] == 'true' || typeof localStorage["showNotifications"] == 'undefined';
+        if (show_notifications) {
+            // Show notification
+            var notification = webkitNotifications.createNotification(
                 'Images/icon-64.png',
                 current_notification.title,
                 current_notification.text
-    		);
-    		notification.show();
-    	}
+            );
+            notification.show();
+        }
     }
 
-	last_notification = current_notification;
+    last_notification = current_notification;
 
-	// set last_updated to the current time to keep track of the last time a request was posted
-	last_updated = (new Date).getTime();
+    // set last_updated to the current time to keep track of the last time a request was posted
+    last_updated = (new Date).getTime();
 }
 
 var units = new Array("B","KB","MB","GB");
 function numberFormatGB(number, unit) {
-	var go = false;
-	for (var i = 0, len = units.length; i < len; i++) {
-		if (go) {
-			number = number / 1024;
-		}
-		if (units[i] == unit) {
-			go = true;
-		}
-	}
-	return number;
+    var go = false;
+    for (var i = 0, len = units.length; i < len; i++) {
+        if (go) {
+            number = number / 1024;
+        }
+        if (units[i] == unit) {
+            go = true;
+        }
+    }
+    return number;
 }
 
 function findChild(element, nodeName) {
-	var child = null;
-	for (child = element.firstChild; child != null; child = child.nextSibling) {
-		if (child.nodeName == nodeName) {
-			break;
-		}
-	}
-	return child;
+    var child = null;
+    for (child = element.firstChild; child != null; child = child.nextSibling) {
+        if (child.nodeName == nodeName) {
+            break;
+        }
+    }
+    return child;
 }
 
 /**
@@ -307,18 +307,18 @@ function findChild(element, nodeName) {
 * @param sendResponse Function The method to call when the request completes.
 */
 function onRequest(request, sender, sendResponse) {
-	switch(request.action) {
-		case 'getUsage':
-			sendResponse({response: response, load_usage_error: load_usage_error});
-			return;
-		case 'loadUsage':
-        	last_updated = 0;
-        	reloadPrefs();
-        	loadUsage();
-		    return;
-	}
-	sendResponse({});
-	return;
+    switch(request.action) {
+        case 'getUsage':
+            sendResponse({response: response, load_usage_error: load_usage_error});
+            return;
+        case 'loadUsage':
+            last_updated = 0;
+            reloadPrefs();
+            loadUsage();
+            return;
+    }
+    sendResponse({});
+    return;
 };
 
 // Wire up the listener.
