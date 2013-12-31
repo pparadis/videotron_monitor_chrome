@@ -163,10 +163,10 @@ function loadUsage2(e, request) {
     response.surchargeLimit = surchargeLimit
     response.surchargePerGb = surchargePerGb;
     
-    date_last_updated_data = response.periodEndDate;
-    var this_month_start = response.periodStartDate;
+    date_last_updated_data = new Date(response.periodEndDate);
+    var this_month_start = new Date(response.periodStartDate);
     var next_month_start = new Date(response.periodEndDate); next_month_start.setDate(next_month_start.getDate()+1);
-    var now = response.usageTimestamp;
+    var now = new Date(response.usageTimestamp);
 
     down = numberFormatGB(response.downloadedBytes, 'B');
     up = numberFormatGB(response.uploadedBytes, 'B');
