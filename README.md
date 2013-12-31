@@ -7,7 +7,7 @@ Whats is it?
 Quite simply, this is a Google Chrome extension that allows Videotron.com customers
 to monitor their monthly bandwidth quota.
 
-*Important note* 
+**Important note** 
 This extension is a fork of the original Videotron Internet Usage Monitor extension (https://github.com/gboudreau/videotron_monitor_chrome).
 
 The original one is no longer maintained. This fork will be the official repository for the extension. However, many many thanks to Guillaume for the original work done on the extension.
