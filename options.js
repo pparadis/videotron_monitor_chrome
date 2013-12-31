@@ -1,5 +1,3 @@
-var plans;
-
 $(document).ready(function() {
     restore_options();
     $('#save').on('click', savePrefs);
@@ -7,19 +5,19 @@ $(document).ready(function() {
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
-    var userkey = localStorage["userkey"];
+    var userkey = localStorage.userkey;
       if (userkey && userkey.length > 0) {
         $('#userkey').val(userkey);
     }
 
-    var color_code_upload = localStorage['colorCodeUpload'] == 'true';
+    var color_code_upload = localStorage.colorCodeUpload == 'true';
     if (color_code_upload) {
         $("#color_code_upload")[0].checked = true;
     } else {
         $("#color_code_upload")[0].checked = false;
     }
 
-    var show_notifications = localStorage['showNotifications'] == 'true' || typeof localStorage["showNotifications"] == 'undefined';
+    var show_notifications = localStorage.showNotifications == 'true' || typeof localStorage.showNotifications == 'undefined';
     if (show_notifications) {
         $("#show_notifications")[0].checked = true;
     } else {
