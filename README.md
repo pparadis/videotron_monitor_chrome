@@ -10,7 +10,7 @@ to monitor their monthly bandwidth quota.
 *Important note* 
 This extension is a fork of the original Videotron Internet Usage Monitor extension (https://github.com/gboudreau/videotron_monitor_chrome).
 
-The original one is no longer maintained. This fork will be the official repository for the extension.
+The original one is no longer maintained. This fork will be the official repository for the extension. However, many many thanks to Guillaume for the original work done on the extension.
 
 Features
 --------
@@ -46,4 +46,4 @@ Don't know your Videotron User Key? You can find it in your Videotron Customer C
 
 Changelog
 ---------
-(2013-01-03) - v2.0 - Produced a fix to the response serialisation message. 
+(2013-01-03) - v0.6.0 - Produced a fix to the response serialisation message. 
