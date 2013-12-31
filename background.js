@@ -14,11 +14,14 @@ var surchargeLimit = 50;
 // For AJAX request & response
 var xml_request = null;
 var last_updated = 0;
-var date_last_updated_data = new Date(); date_last_updated_data.setTime(0);
+
+var date_last_updated_data = new Date(); 
+date_last_updated_data.setTime(0);
+
 var response = null;
 var load_usage_error = null;
 var loadUsageTimer;
-var pastAPIRequests = new Array();
+var pastAPIRequests = [];
 
 var last_notification;
 
@@ -28,7 +31,7 @@ $(document).ready(function() {
 });
 
 function reloadPrefs() {
-    userkey = localStorage["userkey"];
+    userkey = localStorage.userkey;
 }
 
 var minute = 60*1000;
@@ -39,7 +42,7 @@ function loadUsage() {
     var n = new Date();
     var now = n.getTime();
     
-    if (!userkey || userkey.length == 0) {
+    if (!userkey || userkey.length === 0) {
         var notification = webkitNotifications.createNotification(
             'Images/icon-64.png',
             tt('needs_config_notif_title'),
@@ -50,21 +53,23 @@ function loadUsage() {
     }
 
     // only refresh if it's been more than 6h since the last update, or if the data for the day before yesterday hasn't been downloaded yet.
-    var lu = new Date(); lu.setTime(last_updated);
-    if (last_updated == 0) {
+    var lu = new Date(); 
+    lu.setTime(last_updated);
+    
+    if (last_updated === 0) {
         console.log("Chrome restarted, or new install. Updating data...");
     } else {
         console.log("Now: " + now);
         console.log("Last Updated: " + last_updated);
-        if ((now - last_updated) <= 6*hour) {
+        if ((now - last_updated) <= 6 * hour) {
             console.log("Won't update: data is only refreshed every 6 hours.");
         }
-        if ((((now - date_last_updated_data.getTime()) > 2*day) && (now - last_updated) > 15*minute)) {
+        if ((((now - date_last_updated_data.getTime()) > 2 * day) && (now - last_updated) > 15 * minute)) {
             console.log("Oh, oh! Wait... The latest data is more than 2 days old... Let's retry every 15 minutes until it works then.");
         }
     }
-    if ((now - last_updated) > 6*hour || (((now - date_last_updated_data.getTime()) > 2*day) && (now - last_updated) > 15*minute)) {
-        if (xml_request != null) {
+    if ((now - last_updated) > 6 *hour || (((now - date_last_updated_data.getTime()) > 2*day) && (now - last_updated) > 15*minute)) {
+        if (xml_request !== null) {
             xml_request.abort();
             xml_request = null;
         }
@@ -86,7 +91,9 @@ function loadUsage() {
         }
         pastAPIRequests.push(new Date());
         xml_request = new XMLHttpRequest();
-        xml_request.onload = function(e) { loadUsage2(e, xml_request); }
+        xml_request.onload = function(e) { 
+            loadUsage2(e, xml_request); 
+        };
         xml_request.open("GET", "https://www.videotron.com/api/1.0/internet/usage/wired/"+userkey+".json?lang="+lang+"&caller=videotron-chrome.pommepause.com");
         xml_request.setRequestHeader("Cache-Control", "no-cache");
         xml_request.send(null);
@@ -102,12 +109,13 @@ function loadUsage2(e, request) {
         return;
     }
     
+    var resp;
     if (request.response) {
-        var resp = request.response;
+        resp = request.response;
     } else {
-        var resp = request.responseText;
+        resp = request.responseText;
     }
-//    eval('apiResponse = (' + resp + ');');
+
     apiResponse = JSON.parse(resp);
     
     for (var i=0; i<apiResponse.messages.length; i++) {
@@ -115,6 +123,7 @@ function loadUsage2(e, request) {
             if (loadUsageTimer) {
                 clearTimeout(loadUsageTimer);
             }
+            
             if (apiResponse.messages[i].code.indexOf('noUsage') != -1 || apiResponse.messages[i].code.indexOf('noProfile.') != -1) {
                 load_usage_error = tt('no_data', 2);
                 loadUsageTimer = setTimeout(loadUsage, 2*minute);
@@ -125,7 +134,6 @@ function loadUsage2(e, request) {
             }
             else if (apiResponse.messages[i].code == 'invalidToken' || apiResponse.messages[i].code == 'invalidTokenClass' || apiResponse.messages[i].code == 'noProfile') {
                 load_usage_error = 'API error: ' + apiResponse.messages[i].text;
-                // No auto-refresh
             } else {
                 load_usage_error = 'API error: ' + apiResponse.messages[i].text;
                 loadUsageTimer = setTimeout(loadUsage, 20*minute);
@@ -134,17 +142,16 @@ function loadUsage2(e, request) {
         }
     }
     
-    response = new Object();
-    response.periodStartDate = apiResponse.periodStartDate;
-    response.periodEndDate = apiResponse.periodEndDate;
-    response.usageTimestamp = apiResponse.internetAccounts[0].usageTimestamp;
-    
-    response.maxCombinedBytes = apiResponse.internetAccounts[0].maxCombinedBytes;
-    response.uploadedBytes = apiResponse.internetAccounts[0].uploadedBytes;
-    response.downloadedBytes = apiResponse.internetAccounts[0].downloadedBytes;
-    
-    response.packageName = apiResponse.internetAccounts[0].packageName;
-    response.packageCode = apiResponse.internetAccounts[0].packageCode;
+    response = {    
+        periodStartDate : apiResponse.periodStartDate,
+        periodEndDate : apiResponse.periodEndDate,
+        usageTimestamp : apiResponse.internetAccounts[0].usageTimestamp,
+        maxCombinedBytes : apiResponse.internetAccounts[0].maxCombinedBytes,
+        uploadedBytes : apiResponse.internetAccounts[0].uploadedBytes,
+        downloadedBytes : apiResponse.internetAccounts[0].downloadedBytes,
+        packageName : apiResponse.internetAccounts[0].packageName,
+        packageCode : apiResponse.internetAccounts[0].packageCode
+    };
     
     // @TODO Waiting for the API to report those...
     surchargeLimit = 99999;
@@ -160,17 +167,18 @@ function loadUsage2(e, request) {
             surchargePerGb = 4.50;
         }
     }
-    response.surchargeLimit = surchargeLimit
+    response.surchargeLimit = surchargeLimit;
     response.surchargePerGb = surchargePerGb;
-    
     date_last_updated_data = response.periodEndDate;
-    var this_month_start = response.periodStartDate;
-    var next_month_start = new Date(response.periodEndDate); next_month_start.setDate(next_month_start.getDate()+1);
-    var now = response.usageTimestamp;
+    
+    var this_month_start =  new Date(response.periodStartDate);
+    var next_month_start = new Date(response.periodEndDate);
+    next_month_start.setDate(next_month_start.getDate()+1);
+    var now = new Date(response.usageTimestamp);
 
     down = numberFormatGB(response.downloadedBytes, 'B');
     up = numberFormatGB(response.uploadedBytes, 'B');
-    limitTotal = parseInt(response.maxCombinedBytes/1024/1024/1024);
+    limitTotal = parseInt(response.maxCombinedBytes/1024/1024/1024, 10);
     
     // Now data
     var nowPercentage = (now.getTime()-this_month_start.getTime())/(next_month_start.getTime()-this_month_start.getTime());
@@ -183,7 +191,7 @@ function loadUsage2(e, request) {
     
     // 'Today is the $num_days day of your billing month.'
     var num_days = Math.floor((now.getTime()-this_month_start.getTime())/(24*60*60*1000))+1;
-    num_days = parseInt(num_days.toFixed(0));
+    num_days = parseInt(num_days.toFixed(0), 10);
     switch (num_days) {
         case 1: num_days = t('1st'); break;
         case 2: num_days = t('2nd'); break;
@@ -194,11 +202,12 @@ function loadUsage2(e, request) {
         case 31: num_days = t('31st'); break;
         default: num_days = num_days + t('th');
     }
-    var endOfMonthBandwidth = (down+up) / nowPercentage;
 
+    var endOfMonthBandwidth = (down+up) / nowPercentage;
+    var overLimit = ((down+up) - limitTotal) * surchargePerGb;
     if (limitPercentage > 100) {
         // 'Current extra charges: $overLimit'
-        var overLimit = ((down+up) - limitTotal) * surchargePerGb;
+        
         if (overLimit > surchargeLimit) {
             overLimit = surchargeLimit;
         }
@@ -209,7 +218,7 @@ function loadUsage2(e, request) {
             hypoteticOverLimit = surchargeLimit;
         } else if (hypoteticOverLimit < 0) {
             // 'To get no extra charges, you'd need to buy another $extraPackages of extra transfer packages.'
-            for (var i=0; i<transferPackages.length; i++) {
+            for (var i = 0; i<transferPackages.length; i++) {
                 if ((down+up) - (limitTotal+transferPackages[i]) < 0) {
                     extraPackages = transferPackages[i];
                     extraPackagesPrice = transferPackagesPrices[i];
@@ -225,30 +234,27 @@ function loadUsage2(e, request) {
     var current_notification;
     if (down+up > limitTotal+maxTransferPackages) {
         // You're doomed!
-        var badgeDetails = {text: '!!'};
-        var titleDetails = {title: t("over_limit_too_much_tooltip")};
-
-        var text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0));
+        badgeDetails = { text: '!!' };
+        titleDetails = {title: t("over_limit_too_much_tooltip")};
+        text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0));
         current_notification = {title: t('over_limit_too_much_notif_title'), text: text};
     } else if (down+up > limitTotal) {
         // All is not lost... Buy transfer packages!
-        var badgeDetails = {text: '!'};
-        var titleDetails = {title: t('over_limit_tooltip')};
-
-        var text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), extraPackagesPrice.toFixed(2)]);
+        badgeDetails = {text: '!'};
+        titleDetails = {title: t('over_limit_tooltip')};
+        text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), extraPackagesPrice.toFixed(2)]);
         current_notification = {title: t('over_limit_notif_title'), text: text};
     } else if (nowBandwidth < 0 && num_days != '0th' && num_days != '0e') {
         // Not on a good path!
-        var badgeDetails = {text: '!'};
-        var badgeColorDetails = {color: [255, 204, 51, 255]}; // Yellow orangish
-        var titleDetails = {title: t('expected_over_limit_tooltip')};
-
-        var text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]);
+        badgeDetails = {text: '!'};
+        badgeColorDetails = {color: [255, 204, 51, 255]}; // Yellow orangish
+        titleDetails = {title: t('expected_over_limit_tooltip')};
+        text = tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]);
         current_notification = {title: t('expected_over_limit_notif_title'), text: text};
     } else {
-        var badgeDetails = {text: '+'};
-        var badgeColorDetails = {color: [0, 153, 0, 255]}; // Green
-        var titleDetails = {title: t('all_is_well')};
+        badgeDetails = {text: '+'};
+        badgeColorDetails = {color: [0, 153, 0, 255]}; // Green
+        titleDetails = {title: t('all_is_well')};
     }
     
     if (chrome.browserAction) {
@@ -258,7 +264,7 @@ function loadUsage2(e, request) {
     }
     
     if (current_notification && (!last_notification || current_notification.title != last_notification.title)) {
-        var show_notifications = localStorage["showNotifications"] == 'true' || typeof localStorage["showNotifications"] == 'undefined';
+        var show_notifications = localStorage.showNotifications == 'true' || typeof localStorage.showNotifications == 'undefined';
         if (show_notifications) {
             // Show notification
             var notification = webkitNotifications.createNotification(
@@ -271,9 +277,7 @@ function loadUsage2(e, request) {
     }
 
     last_notification = current_notification;
-
-    // set last_updated to the current time to keep track of the last time a request was posted
-    last_updated = (new Date).getTime();
+    last_updated = (new Date()).getTime();
 }
 
 var units = new Array("B","KB","MB","GB");
@@ -292,7 +296,7 @@ function numberFormatGB(number, unit) {
 
 function findChild(element, nodeName) {
     var child = null;
-    for (child = element.firstChild; child != null; child = child.nextSibling) {
+    for (child = element.firstChild; child !== null; child = child.nextSibling) {
         if (child.nodeName == nodeName) {
             break;
         }
@@ -319,7 +323,7 @@ function onRequest(request, sender, sendResponse) {
     }
     sendResponse({});
     return;
-};
+}
 
 // Wire up the listener.
 chrome.extension.onRequest.addListener(onRequest);
