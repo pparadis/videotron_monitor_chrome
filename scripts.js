@@ -10,14 +10,14 @@ var transferPackages = [5, 10, 15, 30, 35, 40, 60, 65, 90];
 var transferPackagesPrices = [5, 10, 15, 12.50, 17.50, 22.50, 25, 30, 37.50];
 
 function reloadPrefs() {
-    color_code_upload = localStorage["colorCodeUpload"] == 'true';
+    color_code_upload = localStorage.colorCodeUpload == 'true';
 }
 
 function savePrefs() {
     // save preferences
-    localStorage['userkey'] = $("#userkey").val();
-    localStorage['colorCodeUpload'] = $("#color_code_upload")[0].checked;
-    localStorage['showNotifications'] = $("#show_notifications")[0].checked;
+    localStorage.userkey = $("#userkey").val();
+    localStorage.colorCodeUpload = $("#color_code_upload")[0].checked;
+    localStorage.showNotifications = $("#show_notifications")[0].checked;
     
     if ($("#userkey").val().length != 16) {
         $("#status").html('<span style="color: #F00">' + t("invalid_user_key") + '</span>');
@@ -34,8 +34,8 @@ function savePrefs() {
 function show() {
     reloadPrefs();
     
-    var userkey = localStorage['userkey'];
-    if (!userkey || userkey == null || userkey.length == 0) {
+    var userkey = localStorage.userkey;
+    if (!userkey || userkey === null || userkey.length === 0) {
         $('#loading').css('display', 'none');
         $('#needs_config').css('display', 'block');
         return;
@@ -67,12 +67,12 @@ function show() {
         
         response = response.response;
 
-        if (response == null) {
+        if (response === null) {
             setTimeout(show, 2000);
             return;
         }
 
-        limitTotal = parseInt(response.maxCombinedBytes/1024/1024/1024);
+        limitTotal = parseInt(response.maxCombinedBytes/1024/1024/1024, 10);
         surchargeLimit = response.surchargeLimit;
         surchargePerGb = response.surchargePerGb;
         
@@ -106,16 +106,16 @@ function show() {
         // Now bar(s)
         var nowPercentage = (now.getTime()-this_month_start.getTime())/(next_month_start.getTime()-this_month_start.getTime());
         var metersWidth = 361;
-        var nowPos = parseInt((nowPercentage*metersWidth).toFixed(0));
+        var nowPos = parseInt((nowPercentage*metersWidth).toFixed(0), 10);
         if (nowPos > (metersWidth)) { nowPos = metersWidth; }
         $('#this_month_now_1').css('left', (29+nowPos)+'px');
         var nowBandwidth = parseFloat((nowPercentage*limitTotal-down-up).toFixed(2));
 
         // 'Today is the $num_days day of your billing month.'
         var num_days = Math.floor((now.getTime()-this_month_start.getTime())/(24*60*60*1000))+1;
-        num_days = parseInt(num_days.toFixed(0));
+        num_days = parseInt(num_days.toFixed(0), 10);
 
-        if (parseInt($('#this_month_meter_1_end').css('left').replace('px','')) <= 1+parseInt(nowPos) || num_days == 0) {
+        if (parseInt($('#this_month_meter_1_end').css('left').replace('px',''), 10) <= 1+parseInt(nowPos, 10) || num_days === 0) {
             $('#this_month_now_1_img')[0].src = 'Images/now.gif';
         } else {
             $('#this_month_now_1_img')[0].src = 'Images/now_nok.gif';
@@ -139,9 +139,10 @@ function show() {
         }
         var endOfMonthBandwidth = (down+up) / nowPercentage;
 
+        var overLimit;
         if (limitPercentage > 100) {
             // 'Current extra charges: $overLimit'
-            var overLimit = ((down+up) - limitTotal) * surchargePerGb;
+            overLimit = ((down+up) - limitTotal) * surchargePerGb;
             if (overLimit > surchargeLimit) {
                 overLimit = surchargeLimit;
             }
@@ -162,17 +163,18 @@ function show() {
             }
         }
 
+        var text = '';
         if (down+up > limitTotal+maxTransferPackages) {
             // You're doomed!
-            var text = '<span class="nowbw neg">' + tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + '</span>';
+            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + '</span>';
         } else if (down+up > limitTotal) {
             // All is not lost... Buy transfer packages!
-            var text = '<span class="nowbw neg">' + tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), extraPackagesPrice.toFixed(2)]) + '</span>';
+            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), extraPackagesPrice.toFixed(2)]) + '</span>';
         } else if (nowBandwidth < 0 && num_days != '0th') {
             // Not on a good path!
-            var text = '<span class="nowbw neg">' + tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]) + '</span>';
+            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down+up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]) + '</span>';
         } else {
-            var text = tt('accumulated_daily_surplus', ['neg', nowBandwidth, (nowBandwidth > 0 ? t("download_more") : '')]);
+            text = tt('accumulated_daily_surplus', ['neg', nowBandwidth, (nowBandwidth > 0 ? t("download_more") : '')]);
         }
         $('#this_month_now_bw_usage').html(text);
     });
@@ -258,10 +260,10 @@ function numberFormatGB(number, unit) {
 
 function t(key) {
     var text = chrome.i18n.getMessage(key);
-    return text == '' ? key : text;
+    return text === '' ? key : text;
 }
 
 function tt(key, substitutions) {
     var text = chrome.i18n.getMessage(key, substitutions);
-    return text == '' ? key : text;
+    return text === '' ? key : text;
 }
