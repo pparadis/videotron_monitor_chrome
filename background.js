@@ -183,11 +183,8 @@ function loadUsage2(e, request) {
     var up = numberFormatGB(response.uploadedBytes, 'B');
     var limitTotal = parseInt(response.maxCombinedBytes / 1024 / 1024 / 1024, 10);
 
-    // Now data
     var nowPercentage = (now.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
     var nowBandwidth = parseFloat((nowPercentage * (limitTotal) - down - up).toFixed(2));
-    var n = (down + up) * 100.0 / limitTotal;
-    var limitPercentage = n.toFixed(0);
 
     console.log("Got new usage data from server...");
     console.log(response);
@@ -223,9 +220,9 @@ function loadUsage2(e, request) {
 
     var endOfMonthBandwidth = (down + up) / nowPercentage;
     var overLimit = ((down + up) - limitTotal) * surchargePerGb;
+    var limitPercentage = ((down + up) * 100.0 / limitTotal).toFixed(0);
     if (limitPercentage > 100) {
         // 'Current extra charges: $overLimit'
-
         if (overLimit > surchargeLimit) {
             overLimit = surchargeLimit;
         }
