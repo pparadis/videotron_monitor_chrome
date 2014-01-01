@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     restore_options();
     $('#save').on('click', savePrefs);
 });
@@ -6,7 +6,7 @@ $(document).ready(function() {
 // Restores select box state to saved value from localStorage.
 function restore_options() {
     var userkey = localStorage.userkey;
-      if (userkey && userkey.length > 0) {
+    if (userkey && userkey.length > 0) {
         $('#userkey').val(userkey);
     }
 
