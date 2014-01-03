@@ -227,8 +227,11 @@ function checkLimits(currentDown, currentUp) {
     if (x > (metersWidth + 1)) {
         x = (metersWidth + 1);
     }
-    $('#this_month_meter_1_end').css('width', ((metersWidth + 1) - x) + 'px');
-    $('#this_month_meter_1_end').css('left', x + 'px');
+    
+    var percentage = getLimitPercentage(currentDown + currentUp, limitTotal);
+    $("#success").css('width',percentage);
+    // $('#this_month_meter_1_end').css('width', ((metersWidth-1) - x) + 'px');
+    // $('#this_month_meter_1_end').css('left', x + 'px');
 
     if (color_code_upload) {
         x = (getLimitPercentage(currentUp, limitTotal) * metersWidth / 100.0 + 1).toFixed(0);

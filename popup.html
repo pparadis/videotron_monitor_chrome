@@ -1,13 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="styles.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="scripts.js" charset="utf-8"></script>
-<script type="text/javascript" src="popup.js" charset="utf-8"></script>
+	<link href="styles.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="scripts.js" charset="utf-8"></script>
+	<script type="text/javascript" src="popup.js" charset="utf-8"></script>
 </head>
 <body>
+	<script src="js/bootstrap.min.js"></script>
 	<div id="front">
 		<div id="loading">Loading... Please wait.</div>
 		<div id="needs_config" class="title"></div>
@@ -25,13 +26,21 @@
 			<img id="this_month_loader" class="loader" src="Images/loader.gif" width="16" height="16" style="display: none" valign="middle" />
 			<br/>
 			<br/>
-			<div id="this_month_meter_1">
-				<img src="Images/meter.png" width="360" height="10" style="border: 1px solid black" />
+			<div id="this_month_meter_1" style="display:none">
+				<img src="Images/meter.png" width="360" height="12" style="border: 1px solid black" />
 				<span id="this_month_meter_1_start" class="meter_start"></span>
 				<span id="this_month_meter_1_end" class="meter_end"></span>
-				<span id="this_month_meter_1_text" class="meter_text">Download + Upload</span>
-				<span id="this_month_percentage_1" class="meter_text meter_percentage" style="left: 280px"></span>
+				
+				
 			</div>
+			
+			<div class="progress">
+				<div id="success" class="progress-bar progress-bar-success"><span class="sr-only">35% Complete (success)</span></div>
+				<div id="warning" class="progress-bar progress-bar-warning" style="width: 20%; display:none;"><span class="sr-only">20% Complete (warning)</span></div>
+				<div id="danger" class="progress-bar progress-bar-danger" style="width: 10%; display:none;"><span class="sr-only">10% Complete (danger)</span></div>
+			</div>
+			<span id="this_month_percentage_1" class="meter_text meter_percentage" style="left: 280px"></span>
+			<span id="this_month_meter_1_text" class="meter_text">Download + Upload</span>
 			<span id="this_month_now_1" style="position: absolute; top: 104px; display: none">
 				<img id="this_month_now_1_img" src="Images/now.gif" width="7" height="20" />
 			</span>
