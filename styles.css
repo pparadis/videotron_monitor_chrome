@@ -1,5 +1,6 @@
 body {
-	font: 10px "Lucida Grande";
+	font-size: 10px; 
+	font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 div {
@@ -7,7 +8,7 @@ div {
 }
 
 #this_month {
-	font: 12px "Lucida Grande";
+	font-size: 12px;
 }
 
 .title {
@@ -19,15 +20,22 @@ div {
 }
 
 #this_month_bandwidth {
-	position: absolute;
-	bottom: 34px;
-	left: 9px;
+	font-size: 12px;
 }
 
 #last_updated {
 	position: absolute;
 	bottom: 7px;
 	left: 15px;
+	padding-top:5px;
+}
+
+#last_updated_intro {
+	font-weight:bold;
+}
+
+.emphasis {
+	font-weight:bold;
 }
 
 input {
@@ -67,9 +75,8 @@ input {
 	left: -10px;
 }
 
-#this_month_meter_2 {
-	position: relative;
-	top: -7px;
+#this_month_meter_1 {
+	height:25px;
 }
 
 .meter_start {
@@ -91,7 +98,8 @@ input {
 }
 
 .meter_text {
-	font: 10px "Lucida Grande";
+	font-size: 10px; 
+	font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
 	color: #000000;
 	position: relative;
 	top: -34px;
@@ -108,7 +116,7 @@ input {
 	margin-bottom: 4px;
 }
 
-#this_month .title, #this_month #this_month_down, #this_month_bandwidth #this_month_now_bw_usage {
+#this_month .title, #this_month #this_month_down, #this_month_bandwidth {
 	margin-left: 8px;
 }
 

@@ -17,13 +17,14 @@
 			<span class="title">
 				<span id="this_month_intro">This month</span> 
 				<span id="this_month_start" class="dates"></span>
-			</span><br/>
+			</span>
+			<br/>
 			<span id="this_month_down"></span> (<span id="this_month_down_suffix">download</span>)
 			+ <span id="this_month_up"></span> (<span id="this_month_up_suffix">upload</span>)
 			= <span id="this_month_total"></span>
 			<img id="this_month_loader" class="loader" src="Images/loader.gif" width="16" height="16" style="display: none" valign="middle" />
-
-			<br/><br/>
+			<br/>
+			<br/>
 			<div id="this_month_meter_1">
 				<img src="Images/meter.png" width="360" height="10" style="border: 1px solid black" />
 				<span id="this_month_meter_1_start" class="meter_start"></span>
@@ -34,26 +35,11 @@
 			<span id="this_month_now_1" style="position: absolute; top: 104px; display: none">
 				<img id="this_month_now_1_img" src="Images/now.gif" width="7" height="20" />
 			</span>
+			<div id="this_month_bandwidth" style="display:none;">
+				<span id="this_month_now_bw_usage"></span>
+			</div>
 		</div>
 		
-		<div id="this_month_bandwidth" style="display:none;width:94%"><span id="this_month_now_bw_usage"></span></div>
-
-		<br/>
-		<div id="last_month" style="display:none">
-			<span class="title">Last month <span id="last_month_dates" class="dates"></span></span><br/>
-			<span id="last_month_down"></span> (download)
-			+ <span id="last_month_up"></span> (upload)
-			= <span id="last_month_total"></span>
-		</div>
-
-		<div id="previous_month" style="display:none">
-			<span class="title">2 month ago <span id="previous_month_dates" class="dates"></span></span><br/>
-			<span id="previous_month_down"></span> (download)
-			+ <span id="previous_month_up"></span> (upload)
-			= <span id="previous_month_total"></span>
-		</div>
-	
-		<br/>
 		<div id="last_updated" style="display:none">
 			<span id="last_updated_intro">Last updated</span>: 
 			<span id="this_month_end">?</span>

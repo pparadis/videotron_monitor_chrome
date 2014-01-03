@@ -202,6 +202,9 @@ function show() {
         } else {
             text = tt('accumulated_daily_surplus', ['neg', nowBandwidth, (nowBandwidth > 0 ? t("download_more") : '')]);
         }
+        //test
+        //text = '<span class="nowbw neg">' + tt('used_and_quota', [(324).toFixed(0), limitTotal]) + tt('current_extra', (1234).toFixed(0)) + '</span>';
+        //text = '<span class="nowbw neg">' + tt('used_and_quota', [(342).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]) + '</span>';
         $('#this_month_now_bw_usage').html(text);
     });
 }
