@@ -46,4 +46,4 @@ Don't know your Videotron User Key? You can find it in your Videotron Customer C
 
 Changelog
 ---------
-(2013-01-03) - v0.6.0 - Produced a fix to the response serialisation message. 
+(2013-01-03) - v0.6.2 - Produced a fix to the response serialisation message. 
