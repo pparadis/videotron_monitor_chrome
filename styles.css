@@ -3,10 +3,6 @@ body {
 	font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-div {
-	/* margin-left: 8px; */
-}
-
 #this_month {
 	font-size: 12px;
 }
@@ -104,19 +100,30 @@ input {
 	font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
 	color: #000000;
 	position: relative;
-	top: -36px;
+	top: -39px;
 	left: 2px;
 	z-index: 10;
 }
 
 .meter_percentage {
-	top: -36px;
 	z-index: 11;
 }
 
+#this_month_percentage_1 {
+	left:345px;
+}
+
 .progress {
-	width: 370px;
+	width: 360px;
 	margin-left:16px;
+}
+
+#download {
+	background-color : #01B200;
+}
+
+#upload {
+	background-color: #F0F;
 }
 
 .loader {
