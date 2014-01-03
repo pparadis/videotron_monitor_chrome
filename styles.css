@@ -71,8 +71,8 @@ input {
 	display: none;
 	position: relative;
 	text-align: center;
-	top: 30px;
 	left: -10px;
+	font-size: 12px;
 }
 
 #this_month_meter_1 {
