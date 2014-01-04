@@ -117,13 +117,14 @@ function show() {
         //tempNow.setDate(now.getDate() + 28);
         //28 = 100%
         //13 = 55.5% ?
-        var nowPercentage = (/*tempNow*/now.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
-        var metersWidth = 372;
+        //var nowPercentage = (tempNow.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
+        var nowPercentage = (now.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
+        var metersWidth = 360;
         var nowPos = parseInt((nowPercentage * metersWidth).toFixed(0), 10);
         if (nowPos > (metersWidth)) {
             nowPos = metersWidth;
         }
-        $('#this_month_now_1').css('left', (nowPos) + 'px');
+        $('#this_month_now_1').css('left', (nowPos+19) + 'px');
         var nowBandwidth = parseFloat((nowPercentage * limitTotal - down - up).toFixed(2));
 
         // 'Today is the $num_days day of your billing month.'
