@@ -100,8 +100,8 @@ function show() {
         next_month_start.setDate(next_month_start.getDate() + 1);
         var now = new Date(response.usageTimestamp);
 
-        var down = numberFormatGB(response.downloadedBytes, 'B')+80;
-        var up = numberFormatGB(response.uploadedBytes, 'B') + 20;
+        var down = numberFormatGB(response.downloadedBytes, 'B');//+80;
+        var up = numberFormatGB(response.uploadedBytes, 'B');// + 20;
 
         $('#this_month_down').html((down < 1 ? '0' : '') + down.toFixed(2) + ' ' + t("GB"));
         $('#this_month_up').html((up < 1 ? '0' : '') + up.toFixed(2) + ' ' + t("GB"));
@@ -216,7 +216,7 @@ function show() {
 function checkLimits(currentDown, currentUp) {
     $('#this_month_now_1').css('display', 'inline');
     $('#this_month_total').css('fontWeight', 'bold');
-    $('#this_month_total').css('color', getLimitColor(currentDown + currentUp, limitTotal));
+    $('#this_month_total').css('color', getBandwithLimitColor(currentDown + currentUp, limitTotal));
     $('#this_month_down').css('fontWeight', 'normal');
     $('#this_month_up').css('fontWeight', 'normal');
     $('#this_month_down').css('color', "#000000");
@@ -258,7 +258,7 @@ function getLimitPercentage(number, limit) {
 function getLimitColor(number, limit) {
     var color = '#01B200';
     if (getLimitPercentage(number, limit) >= 75) {
-        color = '#FFCC00';
+        color = '#FFCC00'; //#FFAF00 //#FA0
     }
     if (getLimitPercentage(number, limit) >= 90) {
         color = '#FF7F00';
@@ -268,6 +268,22 @@ function getLimitColor(number, limit) {
     }
     return color;
 }
+
+function getBandwithLimitColor(number, limit) {
+    var color = '#01B200';
+    if (getLimitPercentage(number, limit) >= 75) {
+        color = '#FA0';
+    }
+    if (getLimitPercentage(number, limit) >= 90) {
+        color = '#FF7F00';
+    }
+    if (getLimitPercentage(number, limit) >= 98) {
+        color = '#FF0900';
+    }
+    return color;
+}
+
+
 
 function dateFormat(d, include_time) {
     if (typeof include_time == 'undefined') {

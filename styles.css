@@ -16,7 +16,7 @@ body {
 }
 
 #this_month_bandwidth {
-	font-size: 12px;
+	font-size: 11px;
 	padding-bottom:10px;
 }
 
@@ -56,7 +56,7 @@ input {
 }
 
 #DownloadProgress {
-	height:25px;
+	height:30px;
 }
 
 #limitTypeDiv, #limitTotalDiv, #limitDifferentDiv {
