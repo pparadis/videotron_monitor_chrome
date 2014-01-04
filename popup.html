@@ -14,47 +14,51 @@
 		<div id="needs_config" class="title"></div>
 		<div id="ohnoes" style="display:none">Oh Noes! There's been an error.</div>
 
-		<div id="this_month" style="display:none">
-			<span class="title">
-				<span id="this_month_intro">This month</span> 
-				<span id="this_month_start" class="dates"></span>
-			</span>
-			<br/>
-			<span id="this_month_down"></span> (<span id="this_month_down_suffix">download</span>)
-			+ <span id="this_month_up"></span> (<span id="this_month_up_suffix">upload</span>)
-			= <span id="this_month_total"></span>
-			<img id="this_month_loader" class="loader" src="Images/loader.gif" width="16" height="16" style="display: none" valign="middle" />
-			<br/>
-			<br/>
+		<div id="this_month" class="container" style="display:none">
+			<div id="BandwithDetails">
+				<span class="title">
+					<span id="this_month_intro">This month</span> 
+					<span id="this_month_start" class="dates"></span>
+				</span>
+				<br/>
+				<span id="this_month_down"></span> (<span id="this_month_down_suffix">download</span>)
+				+ <span id="this_month_up"></span> (<span id="this_month_up_suffix">upload</span>)
+				= <span id="this_month_total"></span>
+				<img id="this_month_loader" class="loader" src="Images/loader.gif" width="16" height="16" style="display: none" valign="middle" />
+			</div>
 			<div id="this_month_meter_1" style="display:none">
 				<img src="Images/meter.png" width="360" height="12" style="border: 1px solid black" />
 				<span id="this_month_meter_1_start" class="meter_start"></span>
 				<span id="this_month_meter_1_end" class="meter_end"></span>
 			</div>
 			
-			<div class="progress">
-				<div id="download" class="progress-bar"><span class="sr-only"></span></div>
-				<div id="upload" class="progress-bar"><span class="sr-only"></span></div>
-				<div id="warning" class="progress-bar progress-bar-warning" style="width: 20%; display:none;"><span class="sr-only"></span></div>
-				<div id="danger" class="progress-bar progress-bar-danger" style="width: 10%; display:none;"><span class="sr-only"></span></div>
+			<div id="DownloadProgress">
+				<div class="progress">
+					<span id="this_month_now_1" style="position: absolute; top: 94px; display: none">
+						<img id="this_month_now_1_img" src="Images/now.gif" width="7" height="20" />
+					</span>
+					<div id="download" class="progress-bar"><span class="sr-only"></span></div>
+					<div id="upload" class="progress-bar"><span class="sr-only"></span></div>
+					<div id="warning" class="progress-bar progress-bar-warning" style="width: 20%; display:none;"><span class="sr-only"></span></div>
+					<div id="danger" class="progress-bar progress-bar-danger" style="width: 10%; display:none;"><span class="sr-only"></span></div>
+				</div>
+				
+				<span id="this_month_percentage_1" class="meter_text meter_percentage"></span>
+				<span id="this_month_meter_1_text" class="meter_text">Download + Upload</span>
 			</div>
 			
-			<span id="this_month_percentage_1" class="meter_text meter_percentage"></span>
-			<span id="this_month_meter_1_text" class="meter_text">Download + Upload</span>
-			
-			<span id="this_month_now_1" style="position: absolute; top: 104px; display: none">
-				<img id="this_month_now_1_img" src="Images/now.gif" width="7" height="20" />
-			</span>
 			
 			<div id="this_month_bandwidth" style="display:none;">
 				<span id="this_month_now_bw_usage"></span>
 			</div>
 		</div>
-		
-		<div id="last_updated" style="display:none">
+    </div>
+	
+	<div id="last_updated" style="display:none">
+		<div class="container">
 			<span id="last_updated_intro">Last updated</span>: 
 			<span id="this_month_end">?</span>
 		</div>
-    </div>
+	</div>
 </body>
 </html>

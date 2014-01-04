@@ -113,10 +113,12 @@ function show() {
         checkLimits(down, up);
 
         // Now bar(s)
-        var tempNow = new Date();
-        tempNow.setDate(now.getDate() + 13);
-        var nowPercentage = (tempNow.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
-        var metersWidth = 361;
+        //var tempNow = new Date();
+        //tempNow.setDate(now.getDate() + 28);
+        //28 = 100%
+        //13 = 55.5% ?
+        var nowPercentage = (/*tempNow*/now.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
+        var metersWidth = 372;
         var nowPos = parseInt((nowPercentage * metersWidth).toFixed(0), 10);
         if (nowPos > (metersWidth)) {
             nowPos = metersWidth;
