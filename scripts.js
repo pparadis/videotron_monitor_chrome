@@ -13,7 +13,6 @@ function reloadPrefs() {
     color_code_upload = localStorage.colorCodeUpload == 'true';
 }
 
-
 function savePrefs() {
     // save preferences
     localStorage.userkey = $("#userkey").val();
@@ -101,8 +100,8 @@ function show() {
         next_month_start.setDate(next_month_start.getDate() + 1);
         var now = new Date(response.usageTimestamp);
 
-        var down = numberFormatGB(response.downloadedBytes, 'B');
-        var up = numberFormatGB(response.uploadedBytes, 'B');
+        var down = numberFormatGB(response.downloadedBytes, 'B')+80;
+        var up = numberFormatGB(response.uploadedBytes, 'B') + 20;
 
         $('#this_month_down').html((down < 1 ? '0' : '') + down.toFixed(2) + ' ' + t("GB"));
         $('#this_month_up').html((up < 1 ? '0' : '') + up.toFixed(2) + ' ' + t("GB"));
@@ -231,15 +230,20 @@ function checkLimits(currentDown, currentUp) {
     // if (x > (metersWidth + 1)) {
         // x = (metersWidth + 1);
     // }
-    
-    
 
     if (color_code_upload) {
-        $("#download").css('width', getLimitPercentage(currentDown, limitTotal) +'%');
-        $("#upload").css('width', getLimitPercentage(currentUp, limitTotal) + '%');
+        $("#Download").css( { 
+            'width':getLimitPercentage(currentDown, limitTotal) +'%'
+            }
+        );
+        $("#Upload").css('width', getLimitPercentage(currentUp, limitTotal) + '%');
     } else {
-        $('#upload').css('display', 'none');
-        $("#download").css('width', getLimitPercentage(currentDown + (currentUp), limitTotal) +'%');
+        $('#Upload').css('display', 'none');
+        $("#Download").css( { 
+            'width':getLimitPercentage(currentDown + currentUp, limitTotal) +'%',
+            'background-color': getLimitColor(currentDown + currentUp, limitTotal)
+            }
+        );
     }
 
     // Percentage
@@ -254,7 +258,7 @@ function getLimitPercentage(number, limit) {
 function getLimitColor(number, limit) {
     var color = '#01B200';
     if (getLimitPercentage(number, limit) >= 75) {
-        color = '#D79800';
+        color = '#FFCC00';
     }
     if (getLimitPercentage(number, limit) >= 90) {
         color = '#FF7F00';

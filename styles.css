@@ -113,7 +113,7 @@ input {
 }
 
 #this_month_percentage_1 {
-	left:345px;
+	left:337px;
 }
 
 .progress {
@@ -121,11 +121,11 @@ input {
 	margin-left:8px;
 }
 
-#download {
+#Download {
 	background-color : #01B200;
 }
 
-#upload {
+#Upload {
 	background-color: #F0F;
 }
 
