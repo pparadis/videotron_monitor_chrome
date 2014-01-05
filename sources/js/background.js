@@ -172,6 +172,10 @@ function loadUsage2(e, request) {
     }
     response.surchargeLimit = surchargeLimit;
     response.surchargePerGb = surchargePerGb;
+    
+    console.log("Got new usage data from server...");
+    console.log(response);
+    
     date_last_updated_data = response.periodEndDate;
 
     var this_month_start = new Date(response.periodStartDate);
@@ -186,37 +190,9 @@ function loadUsage2(e, request) {
     var nowPercentage = (now.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
     var nowBandwidth = parseFloat((nowPercentage * (limitTotal) - down - up).toFixed(2));
 
-    console.log("Got new usage data from server...");
-    console.log(response);
-
     // 'Today is the $num_days day of your billing month.'
-    var num_days = Math.floor((now.getTime() - this_month_start.getTime()) / (24 * 60 * 60 * 1000)) + 1;
-    num_days = parseInt(num_days.toFixed(0), 10);
-    switch (num_days) {
-    case 1:
-        num_days = t('1st');
-        break;
-    case 2:
-        num_days = t('2nd');
-        break;
-    case 3:
-        num_days = t('3rd');
-        break;
-    case 21:
-        num_days = t('21st');
-        break;
-    case 22:
-        num_days = t('22nd');
-        break;
-    case 23:
-        num_days = t('23rd');
-        break;
-    case 31:
-        num_days = t('31st');
-        break;
-    default:
-        num_days = num_days + t('th');
-    }
+    var billingDay = getBillingDay(now, this_month_start);
+    var num_days = getBillingMonthDayWording(billingDay);
 
     var endOfMonthBandwidth = (down + up) / nowPercentage;
     var overLimit = ((down + up) - limitTotal) * surchargePerGb;
@@ -329,6 +305,42 @@ function loadUsage2(e, request) {
     last_notification = current_notification;
     last_updated = (new Date()).getTime();
 }
+
+function getBillingDay(now, this_month_start) {
+    return parseInt(Math.floor((now.getTime() - this_month_start.getTime()) / (24 * 60 * 60 * 1000)) + 1, 10);;
+}
+
+function getBillingMonthDayWording(day){
+    var numDays = "";
+    switch (day) {
+        case 1:
+            numDays = t('1st');
+            break;
+        case 2:
+            numDays = t('2nd');
+            break;
+        case 3:
+            numDays = t('3rd');
+            break;
+        case 21:
+            numDays = t('21st');
+            break;
+        case 22:
+            numDays = t('22nd');
+            break;
+        case 23:
+            numDays = t('23rd');
+            break;
+        case 31:
+            numDays = t('31st');
+            break;
+        default:
+            numDays = day + t('th');
+    }
+    
+    return numDays;
+}
+
 
 var units = new Array("B", "KB", "MB", "GB");
 
