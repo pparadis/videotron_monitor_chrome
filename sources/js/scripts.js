@@ -127,9 +127,9 @@ function show() {
         num_days = parseInt(num_days.toFixed(0), 10);
 
         if (parseInt($('#this_month_meter_1_end').css('left').replace('px', ''), 10) <= 1 + parseInt(nowPos, 10) || num_days === 0) {
-            $('#this_month_now_1_img')[0].src = 'Images/now.gif';
+            $('#this_month_now_1_img')[0].src = 'assets/images/now.gif';
         } else {
-            $('#this_month_now_1_img')[0].src = 'Images/now_nok.gif';
+            $('#this_month_now_1_img')[0].src = 'assets/images/now_nok.gif';
         }
         $('#this_month_bandwidth').css('display', "");
 

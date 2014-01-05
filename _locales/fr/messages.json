@@ -1,72 +1,214 @@
-
-
 {
-	"title": { "message": "Consommation Internet Videotron" },
-	"description" : { "message": "Clients Vidéotron: Garder un oeil sur votre consommation Internet." },
-
-	"title_image": { "message": "Images/background_fr.png" },
-	"loading_please_wait": { "message": "Chargement... Un instant SVP. $IMG$",
-		"placeholders": { "img": { "content": "<img src='Images/loader.gif' class='loader' width='16' height='16' valign='middle' />" } } },
-	"needs_config": { "message": "<h2>Configuration requise</h2><br/>Veuillez entrer votre clé utilisateur Vidéotron<br/>dans les <a href='$URL$' target='_blank'>options</a>.",
-		"placeholders": { "url": { "content": "$1" } } },
-	"oh_noes_error": { "message": "Oh Noes! Une erreur s'est produite.<br/>$DETAILED_ERROR$",
-		"placeholders": { "detailed_error": { "content": "$1" } } },
-
-	"videotron_userkey": { "message": "Clé Utilisateur Vidéotron*" },
-	"data_transfer_packages": { "message": "Blocs de consommation supp. achetés ce mois-ci" },
-	"colored_upload": { "message": "Transfert en amont différent sur le graph" },
-	"show_notifications": { "message": "Afficher les notifications" },
-	"save": { "message": "Sauvegarder" },
-	"options_saved": { "message": "Options sauvegardées." },
-	"invalid_user_key": { "message": "Votre Clé Utilisateur est invalide.<br/>Votre clé devrait contenir 16 caractères." },
-	"where_to_find_user_key": { "message": "* Vous ne connaissez pas votre Clé Utilisateur Vidéotron ? Vous pouvez la trouver dans l'Espace Client Vidéotron, dans l'onglet <a href='https://www.videotron.com/client/user-management/secur/InitProfile.do?dispatch=initProfile&tab=token&lang=fr&caller=videotron-chrome.pommepause.com' target='_blank'>Clé Utilisateur</a> de la page <em>Votre Profile</em>."},
-
-	"download": { "message": "Aval" },
-	"upload": { "message": "Amont" },
-	"download_and_upload": { "message": "Aval + Amont" },
-	"GB": { "message": "Go" },
-	"this_month": { "message": "Ce mois-ci" },
-	"started": { "message": "commencé" },
-	"last_updated": { "message": "Dernière màj" },
-
-	"accumulated_daily_surplus": { "message": "<span class=\"emphasis\">Surplus journalier accumulé</span>: <span class='nowbw $POS_NEG$'>$NOW_BANDWIDTH$ Go</span>. $INSTRUCTIONS$",
-		"placeholders": { "pos_neg": { "content": "$1" }, "now_bandwidth": { "content": "$2" }, "instructions": { "content": "$3" } } },
-	"download_more": { "message": "Laissez-vous aller!" },
-	"slow_down": { "message": "Ralentissez un peu!" },
-	"over_limit_get_packages": { "message": "Limite dépassée! Achetez des blocs de consommation supplémentaires, ou vous serez facturé $SURCHARGE$$$ extra ce mois-ci.",
-		"placeholders": { "surcharge": { "content": "$1" } } },
-
-	"over_limit_too_much_tooltip": { "message": "Limite dépassée! Vous serez facturé pour l'extra." },
-	"over_limit_too_much_notif_title": { "message": "Limite dépassée (vous devrez payer!)" },
-	"used_and_quota": { "message": "Vous avez transféré $BW_USED$Go ce mois-ci, alors que votre limite est de $QUOTA$Go. ",
-		"placeholders": { "bw_used": { "content": "$1" }, "quota": { "content": "$2" } } },
-	"current_extra": { "message": "Surcharge courante: $OVERLIMIT$$$. ",
-		"placeholders": { "overlimit": { "content": "$1" } } },
-	"too_late": { "message": "Même en achetant $MAXTRANSFERPACKAGES$Go de blocs de consommation supplémentaires (le maximum), vous serez quand même facturé une surcharge de $HYPOTETIC_OVERLIMIT$$$.",
-		"placeholders": { "maxtransferpackages": { "content": "$1" }, "hypotetic_overlimit": { "content": "$2" } } },
-
-	"over_limit_tooltip": { "message": "Limite dépassée! Vous devrez probablement payer une surcharge." },
-	"over_limit_notif_title": { "message": "Limite dépassée" },
-	"over_limit_tip": { "message": "Pour ne pas être facturé pour cet extra, vous devrez acheter un $EXTRAPACKAGES$Go ($EXTRAPACKAGESPRICE$$$) de blocs de consommation supplémentaires.",
-		"placeholders": { "extrapackages": { "content": "$1" }, "extrapackagesprice": { "content": "$2" } } },
-
-	"expected_over_limit_tooltip": { "message": "À ce rythme, vous aurez dépassé votre limite à la fin du mois." },
-	"expected_over_limit_notif_title": { "message": "Limite en voie d'être dépassée" },
-	"expected_over_limit_tip": { "message": "Aujourd'hui est le $NUM_DAYS$ jour de votre mois de facturation. À ce rythme, vous aurez transféré $ENDOFMONTHBANDWIDTH$Go à la fin du mois.",
-		"placeholders": { "num_days": { "content": "$1" }, "endofmonthbandwidth": { "content": "$2" } } },
-
-	"all_is_well": { "message": "Tout va bien. Vous pouvez télécharger d'avantage." },
-
-	"1st": { "message": "1er" },
-	"2nd": { "message": "2e" },
-	"3rd": { "message": "3e" },
-	"21st": { "message": "21e" },
-	"22nd": { "message": "22e" },
-	"23rd": { "message": "23e" },
-	"31st": { "message": "31e" },
-	"th": { "message": "e" },
-
-	"this_month_percentage_1_pos_total": { "message": "262px" },
-	"this_month_percentage_1_pos_diff": { "message": "309px" },
-	"this_month_percentage_2_pos_diff": { "message": "298px" }
+    "1st": {
+        "message": "1er"
+    },
+    "21st": {
+        "message": "21e"
+    },
+    "22nd": {
+        "message": "22e"
+    },
+    "23rd": {
+        "message": "23e"
+    },
+    "2nd": {
+        "message": "2e"
+    },
+    "31st": {
+        "message": "31e"
+    },
+    "3rd": {
+        "message": "3e"
+    },
+    "GB": {
+        "message": "Go"
+    },
+    "accumulated_daily_surplus": {
+        "message": "<span class=\"emphasis\">Surplus journalier accumul\u00e9</span>: <span class='nowbw $POS_NEG$'>$NOW_BANDWIDTH$ Go</span>. $INSTRUCTIONS$",
+        "placeholders": {
+            "instructions": {
+                "content": "$3"
+            },
+            "now_bandwidth": {
+                "content": "$2"
+            },
+            "pos_neg": {
+                "content": "$1"
+            }
+        }
+    },
+    "all_is_well": {
+        "message": "Tout va bien. Vous pouvez t\u00e9l\u00e9charger d'avantage."
+    },
+    "colored_upload": {
+        "message": "Transfert en amont diff\u00e9rent sur le graph"
+    },
+    "current_extra": {
+        "message": "Surcharge courante: $OVERLIMIT$$$. ",
+        "placeholders": {
+            "overlimit": {
+                "content": "$1"
+            }
+        }
+    },
+    "data_transfer_packages": {
+        "message": "Blocs de consommation supp. achet\u00e9s ce mois-ci"
+    },
+    "description": {
+        "message": "Clients Vid\u00e9otron: Garder un oeil sur votre consommation Internet."
+    },
+    "download": {
+        "message": "Aval"
+    },
+    "download_and_upload": {
+        "message": "Aval + Amont"
+    },
+    "download_more": {
+        "message": "Laissez-vous aller!"
+    },
+    "expected_over_limit_notif_title": {
+        "message": "Limite en voie d'\u00eatre d\u00e9pass\u00e9e"
+    },
+    "expected_over_limit_tip": {
+        "message": "Aujourd'hui est le $NUM_DAYS$ jour de votre mois de facturation. \u00c0 ce rythme, vous aurez transf\u00e9r\u00e9 $ENDOFMONTHBANDWIDTH$Go \u00e0 la fin du mois.",
+        "placeholders": {
+            "endofmonthbandwidth": {
+                "content": "$2"
+            },
+            "num_days": {
+                "content": "$1"
+            }
+        }
+    },
+    "expected_over_limit_tooltip": {
+        "message": "\u00c0 ce rythme, vous aurez d\u00e9pass\u00e9 votre limite \u00e0 la fin du mois."
+    },
+    "invalid_user_key": {
+        "message": "Votre Cl\u00e9 Utilisateur est invalide.<br/>Votre cl\u00e9 devrait contenir 16 caract\u00e8res."
+    },
+    "last_updated": {
+        "message": "Derni\u00e8re m\u00e0j"
+    },
+    "loading_please_wait": {
+        "message": "Chargement... Un instant SVP. $IMG$",
+        "placeholders": {
+            "img": {
+                "content": "<img src='assets/images/loader.gif' class='loader' width='16' height='16' valign='middle' />"
+            }
+        }
+    },
+    "needs_config": {
+        "message": "<h2>Configuration requise</h2><br/>Veuillez entrer votre cl\u00e9 utilisateur Vid\u00e9otron<br/>dans les <a href='$URL$' target='_blank'>options</a>.",
+        "placeholders": {
+            "url": {
+                "content": "$1"
+            }
+        }
+    },
+    "oh_noes_error": {
+        "message": "Oh Noes! Une erreur s'est produite.<br/>$DETAILED_ERROR$",
+        "placeholders": {
+            "detailed_error": {
+                "content": "$1"
+            }
+        }
+    },
+    "options_saved": {
+        "message": "Options sauvegard\u00e9es."
+    },
+    "over_limit_get_packages": {
+        "message": "Limite d\u00e9pass\u00e9e! Achetez des blocs de consommation suppl\u00e9mentaires, ou vous serez factur\u00e9 $SURCHARGE$$$ extra ce mois-ci.",
+        "placeholders": {
+            "surcharge": {
+                "content": "$1"
+            }
+        }
+    },
+    "over_limit_notif_title": {
+        "message": "Limite d\u00e9pass\u00e9e"
+    },
+    "over_limit_tip": {
+        "message": "Pour ne pas \u00eatre factur\u00e9 pour cet extra, vous devrez acheter un $EXTRAPACKAGES$Go ($EXTRAPACKAGESPRICE$$$) de blocs de consommation suppl\u00e9mentaires.",
+        "placeholders": {
+            "extrapackages": {
+                "content": "$1"
+            },
+            "extrapackagesprice": {
+                "content": "$2"
+            }
+        }
+    },
+    "over_limit_too_much_notif_title": {
+        "message": "Limite d\u00e9pass\u00e9e (vous devrez payer!)"
+    },
+    "over_limit_too_much_tooltip": {
+        "message": "Limite d\u00e9pass\u00e9e! Vous serez factur\u00e9 pour l'extra."
+    },
+    "over_limit_tooltip": {
+        "message": "Limite d\u00e9pass\u00e9e! Vous devrez probablement payer une surcharge."
+    },
+    "save": {
+        "message": "Sauvegarder"
+    },
+    "show_notifications": {
+        "message": "Afficher les notifications"
+    },
+    "slow_down": {
+        "message": "Ralentissez un peu!"
+    },
+    "started": {
+        "message": "commenc\u00e9"
+    },
+    "th": {
+        "message": "e"
+    },
+    "this_month": {
+        "message": "Ce mois-ci"
+    },
+    "this_month_percentage_1_pos_diff": {
+        "message": "309px"
+    },
+    "this_month_percentage_1_pos_total": {
+        "message": "262px"
+    },
+    "this_month_percentage_2_pos_diff": {
+        "message": "298px"
+    },
+    "title": {
+        "message": "Consommation Internet Videotron"
+    },
+    "title_image": {
+        "message": "/assets/images/background_fr.png"
+    },
+    "too_late": {
+        "message": "M\u00eame en achetant $MAXTRANSFERPACKAGES$Go de blocs de consommation suppl\u00e9mentaires (le maximum), vous serez quand m\u00eame factur\u00e9 une surcharge de $HYPOTETIC_OVERLIMIT$$$.",
+        "placeholders": {
+            "hypotetic_overlimit": {
+                "content": "$2"
+            },
+            "maxtransferpackages": {
+                "content": "$1"
+            }
+        }
+    },
+    "upload": {
+        "message": "Amont"
+    },
+    "used_and_quota": {
+        "message": "Vous avez transf\u00e9r\u00e9 $BW_USED$Go ce mois-ci, alors que votre limite est de $QUOTA$Go. ",
+        "placeholders": {
+            "bw_used": {
+                "content": "$1"
+            },
+            "quota": {
+                "content": "$2"
+            }
+        }
+    },
+    "videotron_userkey": {
+        "message": "Cl\u00e9 Utilisateur Vid\u00e9otron*"
+    },
+    "where_to_find_user_key": {
+        "message": "* Vous ne connaissez pas votre Cl\u00e9 Utilisateur Vid\u00e9otron ? Vous pouvez la trouver dans l'Espace Client Vid\u00e9otron, dans l'onglet <a href='https://www.videotron.com/client/user-management/secur/InitProfile.do?dispatch=initProfile&tab=token&lang=fr&caller=videotron-chrome.pommepause.com' target='_blank'>Cl\u00e9 Utilisateur</a> de la page <em>Votre Profile</em>."
+    }
 }

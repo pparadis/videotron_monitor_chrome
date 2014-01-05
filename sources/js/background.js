@@ -43,7 +43,7 @@ function loadUsage() {
 
     if (!userkey || userkey.length === 0) {
         var notification = webkitNotifications.createNotification(
-            'Images/icon-64.png',
+            'assets/images/icon-64.png',
             tt('needs_config_notif_title'),
             tt('needs_config_notif_text')
         );
@@ -318,7 +318,7 @@ function loadUsage2(e, request) {
         if (show_notifications) {
             // Show notification
             var notification = webkitNotifications.createNotification(
-                'Images/icon-64.png',
+                'assets/images/icon-64.png',
                 current_notification.title,
                 current_notification.text
             );

@@ -1,77 +1,220 @@
 {
-	"title": {
-		"message": "Videotron Internet Usage Monitor"
-	},
-	"description" : {
-		"message": "Monitor your monthly Videotron Internet quota."
-	},
-
-	"title_image": { "message": "Images/background_en.png" },
-	"loading_please_wait": { "message": "Loading... Please wait. $IMG$",
-		"placeholders": { "img": { "content": "<img src='Images/loader.gif' class='loader' width='16' height='16' valign='middle' />" } } },
-	"needs_config": { "message": "<h2>Configuration needed</h2><br/>Please enter your Videotron User Key<br/>in the <a href='$URL$' target='_blank'>options</a>.",
-		"placeholders": { "url": { "content": "$1" } } },
-	"oh_noes_error": { "message": "Oh Noes! There's been an error.<br/>$DETAILED_ERROR$",
-		"placeholders": { "detailed_error": { "content": "$1" } } },
-
-	"videotron_userkey": { "message": "Videotron User Key*" },
-	"data_transfer_packages": { "message": "Extra data transfer packages bought this month" },
-	"colored_upload": { "message": "Colored Upload" },
-	"show_notifications": { "message": "Show Notifications" },
-	"save": { "message": "Save" },
-	"options_saved": { "message": "Options Saved." },
-	"invalid_user_key": { "message": "Your User Key is invalid.<br/>Your key should contain 16 characters." },
-	"where_to_find_user_key": { "message": "* Don't know your Videotron User Key? You can find it in your Videotron Customer Center, in the <a href='https://www.videotron.com/client/user-management/secur/InitProfile.do?dispatch=initProfile&tab=token&lang=en&caller=videotron-chrome.pommepause.com' target='_blank'>User Key</a> tab of the <em>Your Profile</em> page."},
-
-	"download": { "message": "Download" },
-	"upload": { "message": "Upload" },
-	"download_and_upload": { "message": "Download + Upload" },
-	"GB": { "message": "GB" },
-	"this_month": { "message": "This month" },
-	"started": { "message": "started" },
-	"last_updated": { "message": "Last updated" },
-	
-	"accumulated_daily_surplus": { "message": "<span class=\"emphasis\">Accumulated daily surplus</span>: <span class='nowbw $POS_NEG$'>$NOW_BANDWIDTH$ GB</span>. $INSTRUCTIONS$",
-		"placeholders": { "pos_neg": { "content": "$1" }, "now_bandwidth": { "content": "$2" }, "instructions": { "content": "$3" } } },
-	"download_more": { "message": "Download more stuff!" },
-	"slow_down": { "message": "Slow down buddy!" },
-	"over_limit_get_packages": { "message": "Over-limit! Buy extra data transfer packages, or you'll be charged $SURCHARGE$$$ extra this month.",
-		"placeholders": { "surcharge": { "content": "$1" } } },
-
-	"over_limit_too_much_tooltip": { "message": "Over-limit! You'll pay extra this month." },
-	"over_limit_too_much_notif_title": { "message": "Over-limit (no going back now)" },
-	"used_and_quota": { "message": "You have transfered $BW_USED$GB this month, of your $QUOTA$GB quota. ",
-		"placeholders": { "bw_used": { "content": "$1" }, "quota": { "content": "$2" } } },
-	"current_extra": { "message": "Current extra charges: $OVERLIMIT$$$. ",
-		"placeholders": { "overlimit": { "content": "$1" } } },
-	"too_late": { "message": "Even with $MAXTRANSFERPACKAGES$GB of transfer packages (the maximum), you'll still be charged $HYPOTETIC_OVERLIMIT$$$.",
-		"placeholders": { "maxtransferpackages": { "content": "$1" }, "hypotetic_overlimit": { "content": "$2" } } },
-
-	"over_limit_tooltip": { "message": "Over-limit! You'll probably pay extra this month." },
-	"over_limit_notif_title": { "message": "Over-limit" },
-	"over_limit_tip": { "message": "To get no extra charges, you'd need to buy another $EXTRAPACKAGES$GB ($EXTRAPACKAGESPRICE$$$) of extra transfer packages.",
-	    "placeholders": { "extrapackages": { "content": "$1" }, "extrapackagesprice": { "content": "$2" } } },
-
-	"expected_over_limit_tooltip": { "message": "At this rate, you'll be over limit at the end of the month." },
-	"expected_over_limit_notif_title": { "message": "Expected Over-limit" },
-	"expected_over_limit_tip": { "message": "Today is the $NUM_DAYS$ day of your billing month. At this rate, you'll be at $ENDOFMONTHBANDWIDTH$GB at the end of the month.",
-		"placeholders": { "num_days": { "content": "$1" }, "endofmonthbandwidth": { "content": "$2" } } },
-
-	"all_is_well": { "message": "All is well. You can download more." },
-
-	"1st": { "message": "1st" },
-	"2nd": { "message": "2nd" },
-	"3rd": { "message": "3rd" },
-	"21st": { "message": "21st" },
-	"22nd": { "message": "22nd" },
-	"23rd": { "message": "23rd" },
-	"31st": { "message": "31st" },
-	"th": { "message": "th" },
-	
-	"this_month_percentage_1_pos_total": { "message": "231px" },
-	"this_month_percentage_1_pos_diff": { "message": "280px" },
-	"this_month_percentage_2_pos_diff": { "message": "294px" },
-
-    "needs_config_notif_title": { "message": "Configuration Needed" },
-	"needs_config_notif_text": { "message": "Please enter your Videotron User Key in the options page of the Videotron Internet Usage Monitor extension."}
+    "1st": {
+        "message": "1st"
+    },
+    "21st": {
+        "message": "21st"
+    },
+    "22nd": {
+        "message": "22nd"
+    },
+    "23rd": {
+        "message": "23rd"
+    },
+    "2nd": {
+        "message": "2nd"
+    },
+    "31st": {
+        "message": "31st"
+    },
+    "3rd": {
+        "message": "3rd"
+    },
+    "GB": {
+        "message": "GB"
+    },
+    "accumulated_daily_surplus": {
+        "message": "<span class=\"emphasis\">Accumulated daily surplus</span>: <span class='nowbw $POS_NEG$'>$NOW_BANDWIDTH$ GB</span>. $INSTRUCTIONS$",
+        "placeholders": {
+            "instructions": {
+                "content": "$3"
+            },
+            "now_bandwidth": {
+                "content": "$2"
+            },
+            "pos_neg": {
+                "content": "$1"
+            }
+        }
+    },
+    "all_is_well": {
+        "message": "All is well. You can download more."
+    },
+    "colored_upload": {
+        "message": "Colored Upload"
+    },
+    "current_extra": {
+        "message": "Current extra charges: $OVERLIMIT$$$. ",
+        "placeholders": {
+            "overlimit": {
+                "content": "$1"
+            }
+        }
+    },
+    "data_transfer_packages": {
+        "message": "Extra data transfer packages bought this month"
+    },
+    "description": {
+        "message": "Monitor your monthly Videotron Internet quota."
+    },
+    "download": {
+        "message": "Download"
+    },
+    "download_and_upload": {
+        "message": "Download + Upload"
+    },
+    "download_more": {
+        "message": "Download more stuff!"
+    },
+    "expected_over_limit_notif_title": {
+        "message": "Expected Over-limit"
+    },
+    "expected_over_limit_tip": {
+        "message": "Today is the $NUM_DAYS$ day of your billing month. At this rate, you'll be at $ENDOFMONTHBANDWIDTH$GB at the end of the month.",
+        "placeholders": {
+            "endofmonthbandwidth": {
+                "content": "$2"
+            },
+            "num_days": {
+                "content": "$1"
+            }
+        }
+    },
+    "expected_over_limit_tooltip": {
+        "message": "At this rate, you'll be over limit at the end of the month."
+    },
+    "invalid_user_key": {
+        "message": "Your User Key is invalid.<br/>Your key should contain 16 characters."
+    },
+    "last_updated": {
+        "message": "Last updated"
+    },
+    "loading_please_wait": {
+        "message": "Loading... Please wait. $IMG$",
+        "placeholders": {
+            "img": {
+                "content": "<img src='assets/images/loader.gif' class='loader' width='16' height='16' valign='middle' />"
+            }
+        }
+    },
+    "needs_config": {
+        "message": "<h2>Configuration needed</h2><br/>Please enter your Videotron User Key<br/>in the <a href='$URL$' target='_blank'>options</a>.",
+        "placeholders": {
+            "url": {
+                "content": "$1"
+            }
+        }
+    },
+    "needs_config_notif_text": {
+        "message": "Please enter your Videotron User Key in the options page of the Videotron Internet Usage Monitor extension."
+    },
+    "needs_config_notif_title": {
+        "message": "Configuration Needed"
+    },
+    "oh_noes_error": {
+        "message": "Oh Noes! There's been an error.<br/>$DETAILED_ERROR$",
+        "placeholders": {
+            "detailed_error": {
+                "content": "$1"
+            }
+        }
+    },
+    "options_saved": {
+        "message": "Options Saved."
+    },
+    "over_limit_get_packages": {
+        "message": "Over-limit! Buy extra data transfer packages, or you'll be charged $SURCHARGE$$$ extra this month.",
+        "placeholders": {
+            "surcharge": {
+                "content": "$1"
+            }
+        }
+    },
+    "over_limit_notif_title": {
+        "message": "Over-limit"
+    },
+    "over_limit_tip": {
+        "message": "To get no extra charges, you'd need to buy another $EXTRAPACKAGES$GB ($EXTRAPACKAGESPRICE$$$) of extra transfer packages.",
+        "placeholders": {
+            "extrapackages": {
+                "content": "$1"
+            },
+            "extrapackagesprice": {
+                "content": "$2"
+            }
+        }
+    },
+    "over_limit_too_much_notif_title": {
+        "message": "Over-limit (no going back now)"
+    },
+    "over_limit_too_much_tooltip": {
+        "message": "Over-limit! You'll pay extra this month."
+    },
+    "over_limit_tooltip": {
+        "message": "Over-limit! You'll probably pay extra this month."
+    },
+    "save": {
+        "message": "Save"
+    },
+    "show_notifications": {
+        "message": "Show Notifications"
+    },
+    "slow_down": {
+        "message": "Slow down buddy!"
+    },
+    "started": {
+        "message": "started"
+    },
+    "th": {
+        "message": "th"
+    },
+    "this_month": {
+        "message": "This month"
+    },
+    "this_month_percentage_1_pos_diff": {
+        "message": "280px"
+    },
+    "this_month_percentage_1_pos_total": {
+        "message": "231px"
+    },
+    "this_month_percentage_2_pos_diff": {
+        "message": "294px"
+    },
+    "title": {
+        "message": "Videotron Internet Usage Monitor"
+    },
+    "title_image": {
+        "message": "/assets/images/background_en.png"
+    },
+    "too_late": {
+        "message": "Even with $MAXTRANSFERPACKAGES$GB of transfer packages (the maximum), you'll still be charged $HYPOTETIC_OVERLIMIT$$$.",
+        "placeholders": {
+            "hypotetic_overlimit": {
+                "content": "$2"
+            },
+            "maxtransferpackages": {
+                "content": "$1"
+            }
+        }
+    },
+    "upload": {
+        "message": "Upload"
+    },
+    "used_and_quota": {
+        "message": "You have transfered $BW_USED$GB this month, of your $QUOTA$GB quota. ",
+        "placeholders": {
+            "bw_used": {
+                "content": "$1"
+            },
+            "quota": {
+                "content": "$2"
+            }
+        }
+    },
+    "videotron_userkey": {
+        "message": "Videotron User Key*"
+    },
+    "where_to_find_user_key": {
+        "message": "* Don't know your Videotron User Key? You can find it in your Videotron Customer Center, in the <a href='https://www.videotron.com/client/user-management/secur/InitProfile.do?dispatch=initProfile&tab=token&lang=en&caller=videotron-chrome.pommepause.com' target='_blank'>User Key</a> tab of the <em>Your Profile</em> page."
+    }
 }

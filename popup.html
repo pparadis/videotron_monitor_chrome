@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="styles.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="scripts.js" charset="utf-8"></script>
-<script type="text/javascript" src="popup.js" charset="utf-8"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="sources/css/styles.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="sources/libs/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="sources/js/scripts.js" charset="utf-8"></script>
+	<script type="text/javascript" src="sources/js/popup.js" charset="utf-8"></script>
 </head>
 <body>
 	<div id="front">
@@ -22,18 +22,18 @@
 			<span id="this_month_down"></span> (<span id="this_month_down_suffix">download</span>)
 			+ <span id="this_month_up"></span> (<span id="this_month_up_suffix">upload</span>)
 			= <span id="this_month_total"></span>
-			<img id="this_month_loader" class="loader" src="Images/loader.gif" width="16" height="16" style="display: none" valign="middle" />
+			<img id="this_month_loader" class="loader" src="assets/images/loader.gif" width="16" height="16" style="display: none" valign="middle" />
 			<br/>
 			<br/>
 			<div id="this_month_meter_1">
-				<img src="Images/meter.png" width="360" height="10" style="border: 1px solid black" />
+				<img src="assets/images/meter.png" width="360" height="10" style="border: 1px solid black" />
 				<span id="this_month_meter_1_start" class="meter_start"></span>
 				<span id="this_month_meter_1_end" class="meter_end"></span>
 				<span id="this_month_meter_1_text" class="meter_text">Download + Upload</span>
 				<span id="this_month_percentage_1" class="meter_text meter_percentage" style="left: 280px"></span>
 			</div>
 			<span id="this_month_now_1" style="position: absolute; top: 104px; display: none">
-				<img id="this_month_now_1_img" src="Images/now.gif" width="7" height="20" />
+				<img id="this_month_now_1_img" src="assets/images/now.gif" width="7" height="20" />
 			</span>
 			<div id="this_month_bandwidth" style="display:none;">
 				<span id="this_month_now_bw_usage"></span>
@@ -44,6 +44,6 @@
 			<span id="last_updated_intro">Last updated</span>: 
 			<span id="this_month_end">?</span>
 		</div>
-    </div>
+	</div>
 </body>
 </html>
