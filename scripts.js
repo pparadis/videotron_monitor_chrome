@@ -14,6 +14,9 @@ function reloadPrefs() {
 }
 
 function savePrefs() {
+    $("#StatusBox").removeAttr('style');
+    $("#StatusBox").css('display', 'block');
+    
     // save preferences
     localStorage.userkey = $("#userkey").val();
     localStorage.colorCodeUpload = $("#color_code_upload")[0].checked;
@@ -30,10 +33,12 @@ function savePrefs() {
 
     // Update status to let user know options were saved.
     $("#status").html(t("options_saved"));
+    
     setTimeout(function () {
-        $("#status").html("");
+        $(".alert").fadeTo(500, 0).slideUp(500);
         translate();
     }, 1250);
+    
 }
 
 function show() {

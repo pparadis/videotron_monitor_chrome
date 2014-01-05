@@ -64,8 +64,8 @@ input {
 }
 
 .inputText {
-	width: 390px;
-	text-align: right;
+	/* width: 390px;
+	text-align: right; */
 }
 
 #needs_config, #loading {
@@ -136,6 +136,10 @@ input {
 #this_month .title, #this_month #this_month_down, #this_month_bandwidth {
 	margin-left: 8px;
 	
+}
+
+#StatusBox {
+	margin-top:13px;
 }
 
 span.nowbw {

@@ -1,55 +1,39 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<head><title>Options - Videotron Internet Usage Monitor</title></head>
-<link href="styles.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="scripts.js" charset="utf-8"></script>
-<script type="text/javascript" src="options.js" charset="utf-8"></script>
-</head>
-<body>
-
-<img id="title_image" src="Images/background_en.png" style="position: relative; left: 170px" />
-
-<table cellspacing="0" cellpadding="0">
-	<tr>
-	    <td class="inputText">
-			<span id="userkey_intro">Vid&eacute;otron User Key</span>:
-		</td>
-		<td>
-		    <input type="text" id="userkey" placeholder="1234567890ABCDEF" size="18" maxlength="16" />
-		</td>
-	</tr>
-
-	<tr>
-	    <td class="inputText">
-			<span id="upload_color_intro">Colored Upload</span>:
-		</td>
-		<td>
-		    <input type="checkbox" id="color_code_upload" value="1" />
-		</td>
-	</tr>
-
-	<tr>
-	    <td class="inputText">
-			<span id="show_notifications_intro">Show Notifications</span>:
-		</td>
-		<td>
-		    <input type="checkbox" id="show_notifications" value="1" />
-		</td>
-	</tr>
-</table>
-
-<div class="inputText">
-    <button id="save">Save</button>
-</div>
-<div class="inputText">
-    <span id="status"></span>
-</div>
-
-<br/>
-<div id="where_to_find_user_key" style="width: 400px; left: 200px; position: absolute"></div>
-
-</body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Options - Videotron Internet Usage Monitor</title>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="scripts.js" charset="utf-8"></script>
+    <script type="text/javascript" src="options.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="container">
+      <img id="title_image" src="Images/background_en.png" />
+	  <div class="form-group">
+		  <label id="userkey_intro" for="exampleInputEmail1"></label>
+		  <input type="text" id="userkey" class="form-control" placeholder="1234567890ABCDEF" size="18" maxlength="16" placeholder="Enter email">
+	  </div>
+	  <div class="checkbox">
+		<label>
+		  <input type="checkbox" id="color_code_upload" value="1"><span id="upload_color_intro">Colored Upload</span>
+		</label>
+	  </div>
+	  <div class="checkbox">
+		<label>
+		  <input type="checkbox" id="show_notifications" value="1"><span id="show_notifications_intro">Show Notifications</span>
+		</label>
+	  </div>
+      <div class="inputText">
+        <button id="save" class="btn btn-default">Save</button>
+      </div>
+      <div id="StatusBox" style="display:none;" class="alert alert-success">
+        <span id="status"></span>
+      </div>
+      <br />
+      <div id="where_to_find_user_key"></div>
+    </div>
+  </body>
 </html>
