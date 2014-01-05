@@ -1,6 +1,10 @@
 {
-	"title": { "message": "Videotron Internet Usage Monitor" },
-	"description" : { "message": "Monitor your monthly Videotron Internet quota." },
+	"title": {
+		"message": "Videotron Internet Usage Monitor"
+	},
+	"description" : {
+		"message": "Monitor your monthly Videotron Internet quota."
+	},
 
 	"title_image": { "message": "Images/background_en.png" },
 	"loading_please_wait": { "message": "Loading... Please wait. $IMG$",
