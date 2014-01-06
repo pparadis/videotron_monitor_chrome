@@ -1,6 +1,6 @@
 var maxTransferPackages = 90;
-var transferPackages = [5, 10, 15, 30, 35, 40, 60, 65, 90];
-var transferPackagesPrices = [5, 10, 15, 12.50, 17.50, 22.50, 25, 30, 37.50];
+var transferPackages = [20, 40, 60, 80, 100, 120, 140, 180];
+var transferPackagesPrices = [5, 10, 12.50, 17.50, 22.50, 25, 30, 37.50];
 
 // For preferences
 var userkey = '';
@@ -144,34 +144,8 @@ function loadUsage2(e, request) {
             return;
         }
     }
-
-    response = {
-        periodStartDate: apiResponse.periodStartDate,
-        periodEndDate: apiResponse.periodEndDate,
-        usageTimestamp: apiResponse.internetAccounts[0].usageTimestamp,
-        maxCombinedBytes: apiResponse.internetAccounts[0].maxCombinedBytes,
-        uploadedBytes: apiResponse.internetAccounts[0].uploadedBytes,
-        downloadedBytes: apiResponse.internetAccounts[0].downloadedBytes,
-        packageName: apiResponse.internetAccounts[0].packageName,
-        packageCode: apiResponse.internetAccounts[0].packageCode
-    };
-
-    // @TODO Waiting for the API to report those...
-    surchargeLimit = 99999;
-    surchargePerGb = 1.50;
-    if (response.packageCode) {
-        if (response.packageCode == 500 || response.packageCode == 521 || response.packageCode == 518 || response.packageCode == 544 || response.packageCode == 1177 || response.packageCode == 1178) {
-            surchargeLimit = 50;
-            surchargePerGb = 4.50;
-        }
-    } else {
-        if (response.packageName == 'High-Speed Internet' || response.packageName == 'Basic Internet' || response.packageName == 'Internet haute vitesse' || response.packageName == 'Internet Intermédiaire') {
-            surchargeLimit = 50;
-            surchargePerGb = 4.50;
-        }
-    }
-    response.surchargeLimit = surchargeLimit;
-    response.surchargePerGb = surchargePerGb;
+    
+    BuildResponseData(apiResponse);
     
     console.log("Got new usage data from server...");
     console.log(response);
@@ -193,32 +167,10 @@ function loadUsage2(e, request) {
     // 'Today is the $num_days day of your billing month.'
     var billingDay = getBillingDay(now, this_month_start);
     var num_days = getBillingMonthDayWording(billingDay);
-
-    var endOfMonthBandwidth = (down + up) / nowPercentage;
+    
     var overLimit = ((down + up) - limitTotal) * surchargePerGb;
     var limitPercentage = ((down + up) * 100.0 / limitTotal).toFixed(0);
-    if (limitPercentage > 100) {
-        // 'Current extra charges: $overLimit'
-        if (overLimit > surchargeLimit) {
-            overLimit = surchargeLimit;
-        }
-
-        // 'Extra charges with $maxTransferPackages of transfer packages (the maximum): $hypotetic_overLimit.'
-        var hypoteticOverLimit = ((down + up) - (limitTotal + maxTransferPackages)) * surchargePerGb;
-        if (hypoteticOverLimit > surchargeLimit) {
-            hypoteticOverLimit = surchargeLimit;
-        } else if (hypoteticOverLimit < 0) {
-            // 'To get no extra charges, you'd need to buy another $extraPackages of extra transfer packages.'
-            for (var i = 0; i < transferPackages.length; i++) {
-                if ((down + up) - (limitTotal + transferPackages[i]) < 0) {
-                    extraPackages = transferPackages[i];
-                    extraPackagesPrice = transferPackagesPrices[i];
-                    break;
-                }
-            }
-        }
-    }
-
+    
     var badgeDetails = {
         text: ''
     };
@@ -237,6 +189,14 @@ function loadUsage2(e, request) {
         titleDetails = {
             title: t("over_limit_too_much_tooltip")
         };
+        
+        if (limitPercentage > 100) {
+            // 'Current extra charges: $overLimit'
+            if (overLimit > surchargeLimit) {
+                overLimit = surchargeLimit;
+            }
+        }
+        
         text = tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0));
         current_notification = {
             title: t('over_limit_too_much_notif_title'),
@@ -250,7 +210,21 @@ function loadUsage2(e, request) {
         titleDetails = {
             title: t('over_limit_tooltip')
         };
-        text = tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), extraPackagesPrice.toFixed(2)]);
+        
+        var extraPackagesDetails;
+        if (limitPercentage > 100) {
+            // 'Current extra charges: $overLimit'
+            if (overLimit > surchargeLimit) {
+                overLimit = surchargeLimit;
+            }
+
+            extraPackagesDetails = getExtraPackagesDetails(down, up, limitTotal);
+        }        
+        
+        text = tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + 
+            tt('current_extra', overLimit.toFixed(0)) + 
+            tt('over_limit_tip', [extraPackagesDetails.extraPackages.toString(), extraPackagesDetails.extraPackagesPrice.toFixed(2)]);
+            
         current_notification = {
             title: t('over_limit_notif_title'),
             text: text
@@ -266,6 +240,8 @@ function loadUsage2(e, request) {
         titleDetails = {
             title: t('expected_over_limit_tooltip')
         };
+        
+        var endOfMonthBandwidth = (down + up) / nowPercentage;
         text = tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]);
         current_notification = {
             title: t('expected_over_limit_notif_title'),
@@ -306,8 +282,64 @@ function loadUsage2(e, request) {
     last_updated = (new Date()).getTime();
 }
 
+function BuildResponseData(apiResponse) {
+    response = {
+        periodStartDate: apiResponse.periodStartDate,
+        periodEndDate: apiResponse.periodEndDate,
+        usageTimestamp: apiResponse.internetAccounts[0].usageTimestamp,
+        maxCombinedBytes: apiResponse.internetAccounts[0].maxCombinedBytes,
+        uploadedBytes: apiResponse.internetAccounts[0].uploadedBytes,
+        downloadedBytes: apiResponse.internetAccounts[0].downloadedBytes,
+        packageName: apiResponse.internetAccounts[0].packageName,
+        packageCode: apiResponse.internetAccounts[0].packageCode
+    };
+    
+    // @TODO Waiting for the API to report those...
+    surchargeLimit = 99999;
+    surchargePerGb = 1.50;
+    if (response.packageCode) {
+        if (response.packageCode == 500 || response.packageCode == 521 || response.packageCode == 518 || response.packageCode == 544 || response.packageCode == 1177 || response.packageCode == 1178) {
+            surchargeLimit = 50;
+            surchargePerGb = 4.50;
+        }
+    } else {
+        if (response.packageName == 'High-Speed Internet' || response.packageName == 'Basic Internet' || response.packageName == 'Internet haute vitesse' || response.packageName == 'Internet Intermédiaire') {
+            surchargeLimit = 50;
+            surchargePerGb = 4.50;
+        }
+    }
+    response.surchargeLimit = surchargeLimit;
+    response.surchargePerGb = surchargePerGb;
+
+}
+
+function getExtraPackagesDetails(down, up, limitTotal) {
+    var extraPackages;
+    var extraPackagesPrice;
+    
+    
+    // 'Extra charges with $maxTransferPackages of transfer packages (the maximum): $hypotetic_overLimit.'
+    var hypoteticOverLimit = ((down + up) - (limitTotal + maxTransferPackages)) * surchargePerGb;
+    if (hypoteticOverLimit > surchargeLimit) {
+        hypoteticOverLimit = surchargeLimit;
+    } else if (hypoteticOverLimit < 0) {
+        // 'To get no extra charges, you'd need to buy another $extraPackages of extra transfer packages.'
+        for (var i = 0; i < transferPackages.length; i++) {
+            if ((down + up) - (limitTotal + transferPackages[i]) < 0) {
+                extraPackages = transferPackages[i];
+                extraPackagesPrice = transferPackagesPrices[i];
+                break;
+            }
+        }
+    }
+    
+    
+    return { extraPackages : extraPackages, extraPackagesPrice : extraPackagesPrice }
+    
+}
+
 function getBillingDay(now, this_month_start) {
-    return parseInt(Math.floor((now.getTime() - this_month_start.getTime()) / (24 * 60 * 60 * 1000)) + 1, 10);;
+    return parseInt(Math.floor((now.getTime() - this_month_start.getTime()) / (24 * 60 * 60 * 1000)) + 1, 10);
 }
 
 function getBillingMonthDayWording(day){
