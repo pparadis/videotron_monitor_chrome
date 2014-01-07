@@ -1,6 +1,7 @@
 var maxTransferPackages = 90;
 var transferPackages = [20, 40, 60, 80, 100, 120, 140, 180];
 var transferPackagesPrices = [5, 10, 12.50, 17.50, 22.50, 25, 30, 37.50];
+var units = new Array("B", "KB", "MB", "GB");
 
 // For preferences
 var userkey = '';
@@ -108,6 +109,16 @@ function loadUsage() {
     loadUsageTimer = setTimeout(loadUsage, 20 * minute);
 }
 
+function getConsumedBandwithAgainstExpectedLimit() {
+
+}
+
+function getPercentageOfMonthUsage(actualDate, thisMonthStart, nextMonthStart) {
+    var nextMonthStartTime = new Date(nextMonthStart);
+    nextMonthStartTime.setDate(nextMonthStartTime.getDate() + 1);
+    return (new Date(actualDate).getTime() - new Date(thisMonthStart).getTime()) / ((nextMonthStartTime).getTime() - new Date(thisMonthStart).getTime());
+}
+
 function loadUsage2(e, request) {
     if (request.status != 200) {
         load_usage_error = 'HTTP error: ' + request.status;
@@ -152,20 +163,15 @@ function loadUsage2(e, request) {
     
     date_last_updated_data = response.periodEndDate;
 
-    var this_month_start = new Date(response.periodStartDate);
-    var next_month_start = new Date(response.periodEndDate);
-    next_month_start.setDate(next_month_start.getDate() + 1);
-    var now = new Date(response.usageTimestamp);
-
     var down = numberFormatGB(response.downloadedBytes, 'B');
     var up = numberFormatGB(response.uploadedBytes, 'B');
     var limitTotal = parseInt(response.maxCombinedBytes / 1024 / 1024 / 1024, 10);
 
-    var nowPercentage = (now.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
+    var nowPercentage = getPercentageOfMonthUsage(response.usageTimestamp, response.periodStartDate, response.periodEndDate);
     var nowBandwidth = parseFloat((nowPercentage * (limitTotal) - down - up).toFixed(2));
 
     // 'Today is the $num_days day of your billing month.'
-    var billingDay = getBillingDay(now, this_month_start);
+    var billingDay = getBillingDay(response.usageTimestamp, response.periodStartDate);
     var num_days = getBillingMonthDayWording(billingDay);
     
     var overLimit = ((down + up) - limitTotal) * surchargePerGb;
@@ -334,12 +340,12 @@ function getExtraPackagesDetails(down, up, limitTotal) {
     }
     
     
-    return { extraPackages : extraPackages, extraPackagesPrice : extraPackagesPrice }
+    return { extraPackages : extraPackages, extraPackagesPrice : extraPackagesPrice };
     
 }
 
 function getBillingDay(now, this_month_start) {
-    return parseInt(Math.floor((now.getTime() - this_month_start.getTime()) / (24 * 60 * 60 * 1000)) + 1, 10);
+    return parseInt(Math.floor((new Date(now).getTime() - new Date(this_month_start).getTime()) / (24 * 60 * 60 * 1000)) + 1, 10);
 }
 
 function getBillingMonthDayWording(day){
@@ -372,9 +378,6 @@ function getBillingMonthDayWording(day){
     
     return numDays;
 }
-
-
-var units = new Array("B", "KB", "MB", "GB");
 
 function numberFormatGB(number, unit) {
     var go = false;
