@@ -164,14 +164,21 @@ function loadUsage2(e, request) {
     date_last_updated_data = response.periodEndDate;
 
     var down = numberFormatGB(response.downloadedBytes, 'B');
+    response.down = down;
     var up = numberFormatGB(response.uploadedBytes, 'B');
+    response.up = up;
     var limitTotal = parseInt(response.maxCombinedBytes / 1024 / 1024 / 1024, 10);
+    response.limitTotal = limitTotal;
 
     var nowPercentage = getPercentageOfMonthUsage(response.usageTimestamp, response.periodStartDate, response.periodEndDate);
+    response.nowPercentage = nowPercentage;
     var nowBandwidth = parseFloat((nowPercentage * (limitTotal) - down - up).toFixed(2));
+    response.nowBandwidth = nowBandwidth;
 
     // 'Today is the $num_days day of your billing month.'
     var billingDay = getBillingDay(response.usageTimestamp, response.periodStartDate);
+    response.billingDay = billingDay;
+    
     var num_days = getBillingMonthDayWording(billingDay);
     
     var overLimit = ((down + up) - limitTotal) * surchargePerGb;
@@ -187,6 +194,7 @@ function loadUsage2(e, request) {
         title: t('Videotron Internet Usage Monitor')
     };
     var current_notification;
+    var text = "";
     if (down + up > limitTotal + maxTransferPackages) {
         // You're doomed!
         badgeDetails = {
@@ -251,6 +259,7 @@ function loadUsage2(e, request) {
         
         var endOfMonthBandwidth = (down + up) / nowPercentage;
         text = tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]);
+        
         current_notification = {
             title: t('expected_over_limit_notif_title'),
             text: text
@@ -266,6 +275,8 @@ function loadUsage2(e, request) {
             title: t('all_is_well')
         };
     }
+    
+    response.notificationText = text;
     
     if (chrome.browserAction) {
         chrome.browserAction.setBadgeText(badgeDetails);

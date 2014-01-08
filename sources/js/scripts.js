@@ -91,101 +91,35 @@ function show() {
         $('#this_month_meter_1').css('marginTop', '');
         $("#last_updated").css('display', "block");
         $('#needs_config').css('display', 'none');
-
         $('#this_month_start').html('(' + t('started') + ' ' + dateFormat(response.periodStartDate) + ')');
-        var last_updated_date = new Date(response.usageTimestamp);
-        $('#this_month_end').html(dateFormat(last_updated_date, true));
-
-        var this_month_start = new Date(response.periodStartDate);
-        var next_month_start = new Date(response.periodEndDate);
-        next_month_start.setDate(next_month_start.getDate() + 1);
-        var now = new Date(response.usageTimestamp);
-
-        var down = numberFormatGB(response.downloadedBytes, 'B');
-        var up = numberFormatGB(response.uploadedBytes, 'B');
-
-        $('#this_month_down').html((down < 1 ? '0' : '') + down.toFixed(2) + ' ' + t("GB"));
-        $('#this_month_up').html((up < 1 ? '0' : '') + up.toFixed(2) + ' ' + t("GB"));
-        $('#this_month_total').html((down + up < 1 ? '0' : '') + (down + up).toFixed(2) + ' ' + t("GB"));
-
+        $('#this_month_end').html(dateFormat(new Date(response.usageTimestamp), true));
+        $('#this_month_down').html((response.down < 1 ? '0' : '') + response.down.toFixed(2) + ' ' + t("GB"));
+        $('#this_month_up').html((response.up < 1 ? '0' : '') + response.up.toFixed(2) + ' ' + t("GB"));
+        $('#this_month_total').html((response.down + response.up < 1 ? '0' : '') + (response.down + response.up).toFixed(2) + ' ' + t("GB"));
         $('#this_month').css('display', "block");
 
-        checkLimits(down, up);
+        checkLimits(response.down, response.up);
 
         // Now bar(s)
-        var nowPercentage = (now.getTime() - this_month_start.getTime()) / (next_month_start.getTime() - this_month_start.getTime());
         var metersWidth = 361;
-        var nowPos = parseInt((nowPercentage * metersWidth).toFixed(0), 10);
+        var nowPos = parseInt((response.nowPercentage * metersWidth).toFixed(0), 10);
         if (nowPos > (metersWidth)) {
             nowPos = metersWidth;
         }
         $('#this_month_now_1').css('left', (29 + nowPos) + 'px');
-        var nowBandwidth = parseFloat((nowPercentage * limitTotal - down - up).toFixed(2));
 
-        // 'Today is the $num_days day of your billing month.'
-        var num_days = Math.floor((now.getTime() - this_month_start.getTime()) / (24 * 60 * 60 * 1000)) + 1;
-        num_days = parseInt(num_days.toFixed(0), 10);
-
-        if (parseInt($('#this_month_meter_1_end').css('left').replace('px', ''), 10) <= 1 + parseInt(nowPos, 10) || num_days === 0) {
+        if (parseInt($('#this_month_meter_1_end').css('left').replace('px', ''), 10) <= 1 + parseInt(nowPos, 10) || response.billingDay === 0) {
             $('#this_month_now_1_img')[0].src = 'assets/images/now.gif';
         } else {
             $('#this_month_now_1_img')[0].src = 'assets/images/now_nok.gif';
         }
         $('#this_month_bandwidth').css('display', "");
-
-        // Now data
-        var n = (down + up) * 100.0 / limitTotal;
-        var limitPercentage = n.toFixed(0);
-
-        // 'Today is the $num_days day of your billing month.'
-        switch (num_days) {
-        case 1:
-            num_days = t('1st');
-            break;
-        case 2:
-            num_days = t('2nd');
-            break;
-        case 3:
-            num_days = t('3rd');
-            break;
-        case 21:
-            num_days = t('21st');
-            break;
-        case 22:
-            num_days = t('22nd');
-            break;
-        case 23:
-            num_days = t('23rd');
-            break;
-        case 31:
-            num_days = t('31st');
-            break;
-        default:
-            num_days = num_days + t('th');
-        }
-        var endOfMonthBandwidth = (down + up) / nowPercentage;
-
-        var overLimit;
-        if (limitPercentage > 100) {
-            // 'Current extra charges: $overLimit'
-            overLimit = ((down + up) - limitTotal) * surchargePerGb;
-            if (overLimit > surchargeLimit) {
-                overLimit = surchargeLimit;
-            }
-        }
-
+        
         var text = '';
-        if (down + up > limitTotal + maxTransferPackages) {
-            // You're doomed!
-            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + '</span>';
-        } else if (down + up > limitTotal) {
-            // All is not lost... Buy transfer packages!
-            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), response.extraPackagesDetails.extraPackagesPrice.toFixed(2)]) + '</span>';
-        } else if (nowBandwidth < 0 && num_days != '0th') {
-            // Not on a good path!
-            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]) + '</span>';
+        if(response.notificationText === "") {
+            text = tt('accumulated_daily_surplus', ['neg', response.nowBandwidth, (response.nowBandwidth > 0 ? t("download_more") : '')]);
         } else {
-            text = tt('accumulated_daily_surplus', ['neg', nowBandwidth, (nowBandwidth > 0 ? t("download_more") : '')]);
+            text = '<span class="nowbw neg">' + response.notificationText + '</span>';
         }
 
         $('#this_month_now_bw_usage').html(text);
