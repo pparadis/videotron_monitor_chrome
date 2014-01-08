@@ -172,21 +172,6 @@ function show() {
             if (overLimit > surchargeLimit) {
                 overLimit = surchargeLimit;
             }
-
-            // 'Extra charges with $maxTransferPackages of transfer packages (the maximum): $hypotetic_overLimit.'
-            var hypoteticOverLimit = ((down + up) - (limitTotal + maxTransferPackages)) * surchargePerGb;
-            if (hypoteticOverLimit > surchargeLimit) {
-                hypoteticOverLimit = surchargeLimit;
-            } else if (hypoteticOverLimit < 0) {
-                // 'To get no extra charges, you'd need to buy another $extraPackages of extra transfer packages.'
-                for (var i = 0; i < transferPackages.length; i++) {
-                    if ((down + up) - (limitTotal + transferPackages[i]) < 0) {
-                        extraPackages = transferPackages[i];
-                        extraPackagesPrice = transferPackagesPrices[i];
-                        break;
-                    }
-                }
-            }
         }
 
         var text = '';
@@ -195,16 +180,14 @@ function show() {
             text = '<span class="nowbw neg">' + tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + '</span>';
         } else if (down + up > limitTotal) {
             // All is not lost... Buy transfer packages!
-            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), extraPackagesPrice.toFixed(2)]) + '</span>';
+            text = '<span class="nowbw neg">' + tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('current_extra', overLimit.toFixed(0)) + tt('over_limit_tip', [extraPackages.toString(), response.extraPackagesDetails.extraPackagesPrice.toFixed(2)]) + '</span>';
         } else if (nowBandwidth < 0 && num_days != '0th') {
             // Not on a good path!
             text = '<span class="nowbw neg">' + tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]) + '</span>';
         } else {
             text = tt('accumulated_daily_surplus', ['neg', nowBandwidth, (nowBandwidth > 0 ? t("download_more") : '')]);
         }
-        //test
-        //text = '<span class="nowbw neg">' + tt('used_and_quota', [(324).toFixed(0), limitTotal]) + tt('current_extra', (1234).toFixed(0)) + '</span>';
-        //text = '<span class="nowbw neg">' + tt('used_and_quota', [(342).toFixed(0), limitTotal]) + tt('expected_over_limit_tip', [num_days, endOfMonthBandwidth.toFixed(0)]) + '</span>';
+
         $('#this_month_now_bw_usage').html(text);
     });
 }
