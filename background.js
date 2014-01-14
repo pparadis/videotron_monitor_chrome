@@ -172,7 +172,7 @@ function loadUsage2(e, request) {
     }
     response.surchargeLimit = surchargeLimit;
     response.surchargePerGb = surchargePerGb;
-    date_last_updated_data = response.periodEndDate;
+    date_last_updated_data = new Date(response.periodEndDate);
 
     var this_month_start = new Date(response.periodStartDate);
     var next_month_start = new Date(response.periodEndDate);
