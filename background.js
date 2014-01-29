@@ -144,6 +144,8 @@ function loadUsage2(e, request) {
             return;
         }
     }
+    
+    load_usage_error = null;
 
     response = {
         periodStartDate: apiResponse.periodStartDate,
