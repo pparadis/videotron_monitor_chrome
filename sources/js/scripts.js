@@ -50,8 +50,7 @@ function show() {
     $("#ohnoes").css('display', "none");
     $('#needs_config').css('display', 'none');
     if ($('#this_month').css('display') == 'none') {
-        $('#loading').css('top', '30px');
-        $('#loading').css('display', 'block');
+        $('.page-content').addClass('loading');
     } else {
         $('#this_month_loader').css('display', 'inline');
         $('#this_month_meter_1').css('marginTop', '-5px');
@@ -63,9 +62,10 @@ function show() {
         if (response.load_usage_error) {
             $('#ohnoes').html(t(response.load_usage_error));
             $("#ohnoes").css('display', "block");
-            $("#loading").css('display', "none");
+
+            $('.page-content').removeClass('loading');
+
             $('#this_month_loader').css('display', "none");
-            $('#this_month_meter_1').css('marginTop', '');
             $('#this_month').css('display', "none");
             $('#this_month_bandwidth').css('display', "none");
             $("#last_updated").css('display', "none");
@@ -86,9 +86,9 @@ function show() {
 
         $("#ohnoes").css('display', "none");
 
-        $("#loading").css('display', "none");
+        $('.page-content').removeClass('loading');
         $('#this_month_loader').css('display', "none");
-        $('#this_month_meter_1').css('marginTop', '');
+
         $("#last_updated").css('display', "block");
         $('#needs_config').css('display', 'none');
         $('#this_month_start').html('(' + t('started') + ' ' + dateFormat(response.periodStartDate) + ')');
@@ -101,14 +101,15 @@ function show() {
         checkLimits(response.down, response.up);
 
         // Now bar(s)
-        var metersWidth = 361;
+        var metersWidth = 388;
         var nowPos = parseInt((response.nowPercentage * metersWidth).toFixed(0), 10);
         if (nowPos > (metersWidth)) {
             nowPos = metersWidth;
         }
-        $('#this_month_now_1').css('left', (29 + nowPos) + 'px');
 
-        if (parseInt($('#this_month_meter_1_end').css('left').replace('px', ''), 10) <= 1 + parseInt(nowPos, 10) || response.billingDay === 0) {
+        $('#this_month_now_1').css('width', getLimitPercentage(nowPos, 388) + '%');
+
+        if (parseInt($('#this_month_meter_1_end').css('left').replace('px', ''), 10) <= parseInt(nowPos, 10) || response.billingDay === 0) {
             $('#this_month_now_1_img')[0].src = 'assets/images/now.gif';
         } else {
             $('#this_month_now_1_img')[0].src = 'assets/images/now_nok.gif';
@@ -138,25 +139,31 @@ function checkLimits(currentDown, currentUp) {
     $('#this_month_up').css('color', "#000000");
 
     // Meters
-    var metersWidth = 360;
-    $('#this_month_meter_1_text').html(t('download_and_upload'));
-    var x = (getLimitPercentage(currentDown + currentUp, limitTotal) * metersWidth / 100.0 + 1).toFixed(0);
-    if (x > (metersWidth + 1)) {
-        x = (metersWidth + 1);
+    if (currentDown < currentUp) {
+        $('.usage-bar .used.download').addClass('over');
+    } else {
+        $('.usage-bar .used.upload').addClass('over');
     }
-    $('#this_month_meter_1_end').css('width', ((metersWidth + 1) - x) + 'px');
+
+    var metersWidth = 388;
+    $('#this_month_meter_1_text').html(t('download_and_upload'));
+    var x = (getLimitPercentage(currentDown + currentUp, limitTotal) * metersWidth / 100.0).toFixed(0);
+    if (x > (metersWidth)) {
+        x = (metersWidth);
+    }
+    $('#this_month_meter_1_end').css('width', ((metersWidth) - x) + 'px');
     $('#this_month_meter_1_end').css('left', x + 'px');
 
     if (color_code_upload) {
-        x = (getLimitPercentage(currentUp, limitTotal) * metersWidth / 100.0 + 1).toFixed(0);
-        $('#this_month_meter_1_start').css('width', x + 'px');
-        $('#this_month_meter_1_start').css('left', '1px');
+        x = (getLimitPercentage(currentUp, limitTotal) * metersWidth / 100.0).toFixed(0);
+        $('#this_month_meter_1_start').css('width', x + 'px').show();
     } else {
-        $('#this_month_meter_1_start').css('width', '0px');
+        $('#this_month_meter_1_start').hide()
     }
 
     // Percentage
-    $('#this_month_percentage_1').css('left', t('this_month_percentage_1_pos_total'));
+    //$('#this_month_percentage_1').css('left', t('this_month_percentage_1_pos_total'));
+    console.log(getLimitPercentage(currentDown + currentUp, limitTotal));
     $('#this_month_percentage_1').html(getLimitPercentage(currentDown + currentUp, limitTotal) + '%');
 }
 

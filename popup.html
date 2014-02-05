@@ -8,61 +8,58 @@
 	<script type="text/javascript" src="sources/js/popup.js" charset="utf-8"></script>
 </head>
 <body>
-	<div id="front">
+
+	<header class="page-header">
+
+		<img class="logo" src="assets/images/videotron-logo-yellow.png" alt="" />
+		<h1 id="usage_title"></h1>
+
+	</header>
+
+	<section class="page-content">
+		
 		<div id="loading">Loading... Please wait.</div>
-		<div id="needs_config" class="title"></div>
-		<div id="ohnoes" style="display:none">Oh Noes! There's been an error.</div>
+		<!-- to test -->
+		<div id="needs_config" class="notice"></div>
+		<div id="ohnoes" class="notice" style="display:none">Oh Noes! There's been an error.</div>
+		<!-- //to test -->
 
 		<div id="this_month" style="display:none">
-			<span class="title">
-				<span id="this_month_intro">This month</span> 
-				<span id="this_month_start" class="dates"></span>
-			</span>
-			<br/>
-			<span id="this_month_down"></span> (<span id="this_month_down_suffix">download</span>)
-			+ <span id="this_month_up"></span> (<span id="this_month_up_suffix">upload</span>)
-			= <span id="this_month_total"></span>
-			<img id="this_month_loader" class="loader" src="assets/images/loader.gif" width="16" height="16" style="display: none" valign="middle" />
-			<br/>
-			<br/>
-			<div id="this_month_meter_1">
-				<img src="assets/images/meter.png" width="360" height="10" style="border: 1px solid black" />
-				<span id="this_month_meter_1_start" class="meter_start"></span>
-				<span id="this_month_meter_1_end" class="meter_end"></span>
-				<span id="this_month_meter_1_text" class="meter_text">Download + Upload</span>
-				<span id="this_month_percentage_1" class="meter_text meter_percentage" style="left: 280px"></span>
+			
+			<div class="overlay-loading" id="this_month_loader"></div>
+
+			<div class="monthly-stats">
+				<div class="period"><strong id="this_month_intro">This month</strong> <span id="this_month_start">(started 2013-12-05)</span></div>
+				<div class="allowed"><span id="this_month_down">109.21 GB</span> (<span id="this_month_down_suffix">download</span>) + <span id="this_month_up"></span> (<span id="this_month_up_suffix">upload</span>) = <span id="this_month_total"></span></div>
 			</div>
-			<span id="this_month_now_1" style="position: absolute; top: 104px; display: none">
-				<img id="this_month_now_1_img" src="assets/images/now.gif" width="7" height="20" />
-			</span>
-			<div id="this_month_bandwidth" style="display:none;">
-				<span id="this_month_now_bw_usage"></span>
+
+			<!-- to replace -->
+			<!-- <div id="this_month_meter_1"> -->
+				<!-- <img src="assets/images/meter.png" width="360" height="10" style="border: 1px solid black" /> -->
+				<!-- <span id="this_month_meter_1_start" class="meter_start"></span> -->
+				<!-- <span id="this_month_meter_1_end" class="meter_end"></span> -->
+			<!-- </div> -->
+			<!-- //to replace -->
+
+			<div class="usage-bar">
+				<div class="total"><span id="this_month_meter_1_text">Download + Upload</span> <span id="this_month_percentage_1"></span></div>
+				<div class="used upload" id="this_month_meter_1_start" style="left:0px;width:50px;"></div>
+				<div class="used download" id="this_month_meter_1_end" style="left:51px;width:100px;"></div>
+				<div class="average download" id="this_month_now_1" style="width:60%;"></div>
 			</div>
+
+			<ul class="usage-legend">
+				<li class="upload"><span id="this_month_up_suffix_2"></span></li>
+				<li class="download"><span id="this_month_down_suffix_2"></span></li>
+				<li class="month"><span id="this_month_now_suffix"></span></li>
+			</ul>
+
+			<div class="notice" id="this_month_bandwidth" style="display:none;"><span id="this_month_now_bw_usage"></span></div>
+
+			<div class="last-update" id="last_updated" style="display:none"><span id="last_updated_intro">Last updated</span>: <span id="this_month_end">2014-01-05 16:05</span></div>
+
 		</div>
-		
-		<div id="last_updated" style="display:none">
-			<span id="last_updated_intro">Last updated</span>: 
-			<span id="this_month_end">?</span>
-		</div>
-	</div>
-	
-	<header class="page-header">
-		<img class="logo" src="assets/images/videotron-logo-yellow.png" alt="" />
-		<h1>Internet Usage</h1>
-	</header>
-	<section class="page-content">
-		<div class="monthly-stats">
-			<div class="period">This month (started 2013-12-05)</div>
-			<div class="allowed">109.21 GB (Download) + 11.05 GB (Upload) = 120.25 GB</div>
-		</div>
-		<div class="usage-bar">
-			<div class="total">Download + Upload 160%</div>
-			<!-- <div class="used upload" style="width:25%;"></div> -->
-			<div class="used download" style="width:75%;"></div>
-			<!-- <div class="average download" style="width:60%;"></div> -->
-		</div>
-		<div class="notice">You have transfered 120GB this month, of your 75GB quota. Current extra charges: 50$. To get no extra charges, you'd need to buy another 60GB (25.00$) of extra transfer packages.</div>
-		<div class="last-update">Last updated: 2014-01-05 16:05</div>
+
 	</section>
 
 </body>

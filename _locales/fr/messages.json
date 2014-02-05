@@ -194,6 +194,12 @@
     "upload": {
         "message": "Amont"
     },
+    "month_now": {
+        "message": "Aujourd'hui"
+    },
+    "internet_usage": {
+        "message": "Consommation Internet"
+    },
     "used_and_quota": {
         "message": "Vous avez transf\u00e9r\u00e9 $BW_USED$Go ce mois-ci, alors que votre limite est de $QUOTA$Go. ",
         "placeholders": {

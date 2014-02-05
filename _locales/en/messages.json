@@ -200,6 +200,12 @@
     "upload": {
         "message": "Upload"
     },
+    "month_now": {
+        "message": "Today"
+    },
+    "internet_usage": {
+        "message": "Internet Usage"
+    },
     "used_and_quota": {
         "message": "You have transfered $BW_USED$GB this month, of your $QUOTA$GB quota. ",
         "placeholders": {
