@@ -156,12 +156,14 @@ function loadUsage2(e, request) {
         }
     }
     
+    load_usage_error = null;
+    
     BuildResponseData(apiResponse);
     
     console.log("Got new usage data from server...");
     console.log(response);
     
-    date_last_updated_data = response.periodEndDate;
+    date_last_updated_data = new Date(response.periodEndDate);
 
     var down = numberFormatGB(response.downloadedBytes, 'B');
     response.down = down;
