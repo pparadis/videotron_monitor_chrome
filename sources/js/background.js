@@ -237,7 +237,7 @@ function loadUsage2(e, request) {
             extraPackagesDetails = getExtraPackagesDetails(down, up, limitTotal);
         }
         
-        reponse.extraPackagesDetails = extraPackagesDetails;
+        response.extraPackagesDetails = extraPackagesDetails;
         
         text = tt('used_and_quota', [(down + up).toFixed(0), limitTotal]) + 
             tt('current_extra', overLimit.toFixed(0)) + 
