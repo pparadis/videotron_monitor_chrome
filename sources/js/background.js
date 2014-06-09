@@ -43,12 +43,13 @@ function loadUsage() {
     var now = n.getTime();
 
     if (!userkey || userkey.length === 0) {
-        var notification = webkitNotifications.createNotification(
-            'assets/images/icon-64.png',
-            tt('needs_config_notif_title'),
-            tt('needs_config_notif_text')
-        );
-        notification.show();
+        var opt = {
+            iconUrl:'assets/images/icon-64.png',
+            type: "basic",
+            title: tt('needs_config_notif_title'),
+            message: tt('needs_config_notif_text')
+        };
+        chrome.notifications.create("userkey", opt, function(){});
         return;
     }
 
@@ -290,12 +291,13 @@ function loadUsage2(e, request) {
         var show_notifications = localStorage.showNotifications == 'true' || typeof localStorage.showNotifications == 'undefined';
         if (show_notifications) {
             // Show notification
-            var notification = webkitNotifications.createNotification(
-                'assets/images/icon-64.png',
-                current_notification.title,
-                current_notification.text
-            );
-            notification.show();
+            var opt = {
+                iconUrl:'assets/images/icon-64.png',
+                type: "basic",
+                title: current_notification.title,
+                message: current_notification.text
+            };
+            chrome.notifications.create("usage", opt,function(){});
         }
     }
 
