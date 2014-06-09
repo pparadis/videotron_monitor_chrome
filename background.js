@@ -41,15 +41,15 @@ function loadUsage() {
     var n = new Date();
     var now = n.getTime();
 
-    // if (!userkey || userkey.length === 0) {
-    //     var notification = webkitNotifications.createNotification(
-    //         'Images/icon-64.png',
-    //         tt('needs_config_notif_title'),
-    //         tt('needs_config_notif_text')
-    //     );
-    //     notification.show();
-    //     return;
-    // }
+    if (!userkey || userkey.length === 0) {
+        var opt = {
+            iconUrl:'Images/icon-64.png',
+            type: "basic",
+            title: tt('needs_config_notif_title'),
+            message: tt('needs_config_notif_text')
+        };
+        chrome.notifications.create("userkey", opt, function(){});
+    }
 
     // only refresh if it's been more than 6h since the last update, or if the data for the day before yesterday hasn't been downloaded yet.
     var lu = new Date();
@@ -315,18 +315,19 @@ function loadUsage2(e, request) {
         chrome.browserAction.setTitle(titleDetails);
     }
 
-    // if (current_notification && (!last_notification || current_notification.title != last_notification.title)) {
-    //     var show_notifications = localStorage.showNotifications == 'true' || typeof localStorage.showNotifications == 'undefined';
-    //     if (show_notifications) {
-    //         // Show notification
-    //         var notification = webkitNotifications.createNotification(
-    //             'Images/icon-64.png',
-    //             current_notification.title,
-    //             current_notification.text
-    //         );
-    //         notification.show();
-    //     }
-    // }
+    if (current_notification && (!last_notification || current_notification.title != last_notification.title)) {
+        var show_notifications = localStorage.showNotifications == 'true' || typeof localStorage.showNotifications == 'undefined';
+        if (show_notifications) {
+            // Show notification
+            var opt = {
+                iconUrl:'Images/icon-64.png',
+                type: "basic",
+                title: current_notification.title,
+                message: current_notification.text
+            ;
+            chrome.notifications.create("usage", opt, function(){});
+        }
+    }
 
     last_notification = current_notification;
     last_updated = (new Date()).getTime();
