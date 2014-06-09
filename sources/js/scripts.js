@@ -109,11 +109,11 @@ function show() {
 
         $('#this_month_now_1').css('width', getLimitPercentage(nowPos, 388) + '%');
 
-        if (parseInt($('#this_month_meter_1_end').css('left').replace('px', ''), 10) <= parseInt(nowPos, 10) || response.billingDay === 0) {
-            $('#this_month_now_1_img')[0].src = 'assets/images/now.gif';
-        } else {
-            $('#this_month_now_1_img')[0].src = 'assets/images/now_nok.gif';
-        }
+        // if (parseInt($('#this_month_meter_1_end').css('left').replace('px', ''), 10) <= parseInt(nowPos, 10) || response.billingDay === 0) {
+        //     $('#this_month_now_1_img')[0].src = 'assets/images/now.gif';
+        // } else {
+        //     $('#this_month_now_1_img')[0].src = 'assets/images/now_nok.gif';
+        // }
         $('#this_month_bandwidth').css('display', "");
         
         var text = '';
@@ -152,14 +152,16 @@ function checkLimits(currentDown, currentUp) {
         x = (metersWidth);
     }
     $('#this_month_meter_1_end').css('width', ((metersWidth) - x) + 'px');
-    $('#this_month_meter_1_end').css('left', x + 'px');
+    //$('#this_month_meter_1_end').css('left', x + 'px');
 
     if (color_code_upload) {
-        x = (getLimitPercentage(currentUp, limitTotal) * metersWidth / 100.0).toFixed(0);
-        $('#this_month_meter_1_start').css('width', x + 'px').show();
+        x = (getLimitPercentage(currentUp, limitTotal) * metersWidth / 100.0);
+        $('#this_month_meter_1_start').css('width', x.toFixed(0) + 'px').show();
     } else {
         $('#this_month_meter_1_start').hide()
     }
+
+    $('#this_month_meter_1_end').css('left', (x + 1) + 'px');
 
     // Percentage
     //$('#this_month_percentage_1').css('left', t('this_month_percentage_1_pos_total'));
