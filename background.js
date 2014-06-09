@@ -324,7 +324,7 @@ function loadUsage2(e, request) {
                 type: "basic",
                 title: current_notification.title,
                 message: current_notification.text
-            ;
+            };
             chrome.notifications.create("usage", opt, function(){});
         }
     }
