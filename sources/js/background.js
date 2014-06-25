@@ -185,7 +185,7 @@ function loadUsage2(e, request) {
     var num_days = getBillingMonthDayWording(billingDay);
     
     var overLimit = ((down + up) - limitTotal) * surchargePerGb;
-    var limitPercentage = ((down + up) * 100.0 / limitTotal).toFixed(0);
+    var limitPercentage = ((down + up) * 100.0 / limitTotal).toFixed(2);
     
     var badgeDetails = {
         text: ''
