@@ -135,7 +135,7 @@ function show() {
 
         // Now data
         var n = (down + up) * 100.0 / limitTotal;
-        var limitPercentage = n.toFixed(0);
+        var limitPercentage = n.toFixed(2);
 
         // 'Today is the $num_days day of your billing month.'
         switch (num_days) {
